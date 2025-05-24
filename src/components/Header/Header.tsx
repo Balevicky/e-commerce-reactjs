@@ -4,17 +4,19 @@
   App Name : E-commerce with React.Js
   Created At : 22/05/2025 18:04:02
 */
-import React, { FC, useEffect, Fragment, useState } from "react";
+import React, { FC, useEffect, Fragment } from "react";
 // import Loading from '../Loading/Loading';
 import "./Header.css";
-import Loading from "../Loading/Loading";
+// import Loading from "../Loading/Loading";
+import { Meta } from "../../models/meta";
+import { getMetas } from "../../helpers/utils";
 
-interface HeaderProps {}
+interface HeaderProps {
+  metas: Meta[];
+}
 
-const Header: FC<HeaderProps> = () => {
-  // const [state, setState] = useState<any>(null)
+const Header: FC<HeaderProps> = ({ metas }) => {
   // const [loading, setLoading] = useState(true);
-  const [value, setValue] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,14 +24,15 @@ const Header: FC<HeaderProps> = () => {
       // setLoading(false);
     };
     runLocalData();
-  }, [value]);
+  }, []);
 
   return (
     <Fragment>
       <div className="Header ">
         <header className="header_wrap fixed-top header_with_topbar active">
           <div className="top-header">
-            <div className="container-fluid px-3">
+            {/* <div className="container m-5"> */}
+            <div className="container-fuid px-5 ">
               <div className="row align-items-center">
                 <div className="col-md-6">
                   <div className="d-flex align-items-center justify-content-center justify-content-md-start">
@@ -116,7 +119,7 @@ const Header: FC<HeaderProps> = () => {
                     <ul className="contact_detail text-center text-lg-start">
                       <li>
                         <i className="ti-mobile"></i>
-                        <span>+33 7 49 31 69 74</span>
+                        <span>{getMetas(metas, "site_phone")} </span>
                       </li>
                     </ul>
                   </div>
@@ -157,10 +160,11 @@ const Header: FC<HeaderProps> = () => {
             </div>
           </div>
           <div className="bottom_header dark_skin main_menu_uppercase">
-            <div className="container-fluid px-3">
+            <div className="container-lg ">
+              {/* <div className="container-fluid px-3"> */}
               <nav className="navbar navbar-expand-lg">
                 <a className="navbar-brand" ng-reflect-router-link="/" href="/">
-                  <h2>Bstore</h2>
+                  <h2>{getMetas(metas, "site_name")}</h2>
                 </a>
                 <button
                   type="button"

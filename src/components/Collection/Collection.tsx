@@ -31,7 +31,7 @@ const Collection: FC<CollectionProps> = () => {
       ) : (
         <div className="Collection">
           <div className="section pb_20">
-            <div className="container">
+            <div className="container-lg">
               <div className="row">
                 <div className="col-md-6">
                   <div className="single_banner">

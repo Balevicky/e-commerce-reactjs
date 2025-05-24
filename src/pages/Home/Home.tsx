@@ -27,14 +27,9 @@ const Home: FC<HomeProps> = () => {
   }, [value]);
 
   return (
-    <Fragment>
-      {/* <Header /> */}
-      <div className="Home">
-        Home Component
-        <Main />
-      </div>
-      {/* <Footer /> */}
-    </Fragment>
+    <div className="Home">
+      <Main />
+    </div>
   );
 };
 

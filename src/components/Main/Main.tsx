@@ -8,9 +8,9 @@ import React, { FC, useEffect, Fragment, useState } from "react";
 // import Loading from '../Loading/Loading';
 import "./Main.css";
 import Loading from "../Loading/Loading";
-import Slider from "../Slider/Slider";
 import Collection from "../Collection/Collection";
 import Exclusive from "../Exclusive/Exclusive";
+import Banner from "../Banner/Banner";
 
 interface MainProps {}
 
@@ -33,7 +33,7 @@ const Main: FC<MainProps> = () => {
         <Loading />
       ) : (
         <div className="Main">
-          <Slider />
+          <Banner />
           <div className="main_content">
             <Collection />
             <Exclusive />

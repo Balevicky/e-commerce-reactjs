@@ -6,10 +6,14 @@
 */
 import React, { FC, useEffect } from "react";
 import "./Footer.css";
+import { Meta } from "../../models/meta";
+import { getMetas } from "../../helpers/utils";
 
-interface FooterProps {}
+interface FooterProps {
+  metas: Meta[];
+}
 
-const Footer: FC<FooterProps> = () => {
+const Footer: FC<FooterProps> = ({ metas }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const runLocalData = async () => {};
@@ -21,46 +25,62 @@ const Footer: FC<FooterProps> = () => {
       <footer className="footer_dark">
         <div className="footer_top">
           {/* <div className="container "> */}
-          <div className="container-fluid px-3 ">
+          <div className="container-lg ">
             {/* <div className="row "> */}
             <div className="row justify-content-center">
-              <div className="col-lg-2 col-md-6 col-sm-12">
+              <div className="col-lg-3 col-md-6 col-sm-12">
                 <div className="widget">
                   <div className="footer_logo">
                     <a href="#">
-                      <h2>Jstore</h2>
+                      <h2>{getMetas(metas, "site_name")}</h2>
                     </a>
                   </div>
-                  <p>
-                    {" "}
-                    Retrouvez tous les accessoires et habits pour femmes, jeunes
-                    filles etc...{" "}
-                  </p>
+                  <p>{getMetas(metas, "site_description")}</p>
                 </div>
                 <div className="widget">
                   <ul className="social_icons social_white">
                     <li>
-                      <a target="_blank" href="https://facebook.com">
-                        <i className="ion-social-facebook" />
-                      </a>
+                      {getMetas(metas, "facebook_link") ? (
+                        <a
+                          target="_blank"
+                          href={getMetas(metas, "facebook_link")}
+                        >
+                          <i className="ion-social-facebook" />
+                        </a>
+                      ) : (
+                        <a target="_blank" href="https://facebook.com">
+                          <i className="ion-social-facebook" />
+                        </a>
+                      )}
                     </li>
                     <li />
                     <li />
                     <li>
-                      <a
-                        target="_blank"
-                        href="https://www.youtube.com/channel/UCkqALrIVPEyGnnbmiFl3lQA/?sub_confirmation=1"
-                      >
-                        <i className="ion-social-youtube-outline" />
-                      </a>
+                      {getMetas(metas, "youtube_link") ? (
+                        <a
+                          target="_blank"
+                          href={getMetas(metas, "youtube_link")}
+                        >
+                          <i className="ion-social-youtube-outline" />
+                        </a>
+                      ) : null}
                     </li>
                     <li>
-                      <a
+                      {getMetas(metas, "instagram_link") ? (
+                        <a
+                          target="_blank"
+                          href={getMetas(metas, "instagram_link")}
+                        >
+                          <i className="ion-social-instagram-outline" />
+                        </a>
+                      ) : null}
+
+                      {/* <a
                         target="_blank"
                         href="https://www.instagram.com/mudey_formation/"
                       >
                         <i className="ion-social-instagram-outline" />
-                      </a>
+                      </a> */}
                     </li>
                   </ul>
                 </div>
@@ -161,21 +181,23 @@ const Footer: FC<FooterProps> = () => {
                   </ul>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-4 col-sm-6">
+              <div className="col-lg-3 col-md-4 col-sm-6">
                 <div className="widget">
                   <h6 className="widget_title">Contact Info</h6>
                   <ul className="contact_info contact_info_light">
                     <li>
                       <i className="ti-location-pin" />
-                      <p>21 Rue Rubens 59800 Lille</p>
+                      <p>{getMetas(metas, "site_adress")}</p>
                     </li>
                     <li>
                       <i className="ti-email" />
-                      <a href="mailto:contact@jstore.fr">contact@jstore.fr</a>
+                      <a href={"mailto:" + getMetas(metas, "site_email")}>
+                        {getMetas(metas, "site_email")}
+                      </a>
                     </li>
                     <li>
                       <i className="ti-mobile" />
-                      <p>+33 7 49 31 69 74</p>
+                      <p>{getMetas(metas, "site_phone")}</p>
                     </li>
                   </ul>
                 </div>
@@ -190,7 +212,7 @@ const Footer: FC<FooterProps> = () => {
                 {/* <p className="mb-md-0 text-center text-md-start"> */}
                 <p className="mb-md-0 text-center text-md-center">
                   {" "}
-                  © 2023 All Rights Reserved by Espero-Soft Informatiques{" "}
+                  {getMetas(metas, "site_rights")}
                 </p>
               </div>
               <div className="col-md-6">

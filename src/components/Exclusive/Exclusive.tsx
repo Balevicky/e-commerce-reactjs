@@ -31,7 +31,7 @@ const Exclusive: FC<ExclusiveProps> = () => {
       ) : (
         <div className="Exclusive">
           <div className="section small_pt pb_70">
-            <div className="container-fluid px-3">
+            <div className="container-lg ">
               <div className="row justify-content-center">
                 <div className="col-md-6">
                   <div className="heading_s1 text-center">
