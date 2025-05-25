@@ -10,6 +10,7 @@ import "./Header.css";
 // import Loading from "../Loading/Loading";
 import { Meta } from "../../models/meta";
 import { getMetas } from "../../helpers/utils";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   metas: Meta[];
@@ -128,28 +129,28 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                   <div className="text-center text-md-end">
                     <ul className="header_list">
                       <li>
-                        <a ng-reflect-router-link="/compare" href="/compare">
+                        <Link to="/compare">
                           <i className="ti-control-shuffle"></i>
                           <span>Compare</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a ng-reflect-router-link="/wishlist" href="/wishlist">
+                        <Link to="/wishlist">
                           <i className="ti-heart"></i>
                           <span>Wishlist</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a ng-reflect-router-link="/signin" href="/signin">
+                        <Link to="/signin">
                           <i className="ti-user"></i>
                           <span>Signin</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a ng-reflect-router-link="/signup" href="/signup">
+                        <Link to="/signup">
                           <i className="ti-user"></i>
                           <span>Signup</span>
-                        </a>
+                        </Link>
                       </li>
                       <li></li>
                       <li></li>
@@ -163,9 +164,9 @@ const Header: FC<HeaderProps> = ({ metas }) => {
             <div className="container-lg ">
               {/* <div className="container-fluid px-3"> */}
               <nav className="navbar navbar-expand-lg">
-                <a className="navbar-brand" ng-reflect-router-link="/" href="/">
+                <Link className="navbar-brand" to="/">
                   <h2>{getMetas(metas, "site_name")}</h2>
-                </a>
+                </Link>
                 <button
                   type="button"
                   data-bs-toggle="collapse"
@@ -181,126 +182,112 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                 >
                   <ul className="navbar-nav">
                     <li className="dropdown">
-                      <a
-                        className="nav-link"
-                        ng-reflect-router-link="/"
-                        href="/"
-                      >
+                      <Link className="nav-link" to="/">
                         Home
-                      </a>
+                      </Link>
                     </li>
                     <li className="dropdown">
-                      <a
-                        href="#"
+                      <Link
+                        to="#"
                         data-bs-toggle="dropdown"
                         className="dropdown-toggle nav-link active"
                         aria-expanded="false"
                       >
                         Pages
-                      </a>
+                      </Link>
                       <div className="dropdown-menu">
                         <ul>
                           <li>
-                            <a
+                            <Link
                               className="dropdown-item nav-link nav_item"
-                              ng-reflect-router-link="/about"
-                              href="/about"
+                              to="/about"
                             >
                               About Us
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
+                            <Link
                               className="dropdown-item nav-link nav_item"
-                              ng-reflect-router-link="/contact"
-                              href="/contact"
+                              to="/contact"
                             >
                               Contact Us
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
+                            <Link
                               className="dropdown-item nav-link nav_item"
-                              ng-reflect-router-link="/fqa"
-                              href="/fqa"
+                              to="/fqa"
                             >
                               Faq
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
+                            <Link
                               className="dropdown-item nav-link nav_item"
-                              ng-reflect-router-link="/signin"
-                              href="/signin"
+                              to="/signin"
                             >
                               Login
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
+                            <Link
                               className="dropdown-item nav-link nav_item"
-                              ng-reflect-router-link="/signup"
-                              href="/signup"
+                              to="/signup"
                             >
                               Register
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a
+                            <Link
                               className="dropdown-item nav-link nav_item"
-                              ng-reflect-router-link="/terms"
-                              href="/terms"
+                              to="/terms"
                             >
                               Terms and Conditions
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </div>
                     </li>
                     <li className="dropdown dropdown-mega-menu">
-                      <a
-                        href="#"
+                      <Link
+                        to="#"
                         data-bs-toggle="dropdown"
                         className="dropdown-toggle nav-link"
                         aria-expanded="false"
                       >
                         Products
-                      </a>
+                      </Link>
                       <div className="dropdown-menu">
                         <ul className="mega-menu d-lg-flex">
                           <li className="mega-menu-col col-lg-3">
                             <ul>
                               <li className="dropdown-header">Robes</li>
                               <li>
-                                <a
+                                <Link
                                   className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,bikini-unicolore-cte"
-                                  href="/product/bikini-unicolore-ctel-shop"
+                                  to="/product/bikini-unicolore-ctel-shop"
                                 >
                                   Bikini unicolore côtelé
-                                </a>
-                                <a
+                                </Link>
+                                <Link
                                   className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,jupe-crayon-taille-h"
-                                  href="/product/jupe-crayon-taille-haute-en-dentelle"
+                                  to="/product/jupe-crayon-taille-haute-en-dentelle"
                                 >
                                   Jupe crayon taille haute en dentelle
-                                </a>
-                                <a
+                                </Link>
+                                <Link
                                   className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,jupe-imprim-floral-t"
-                                  href="/product/jupe-imprim-floral-taille-fronce"
+                                  to="/product/jupe-imprim-floral-taille-fronce"
                                 >
                                   Jupe à imprimé floral à taille froncée
-                                </a>
-                                <a
+                                </Link>
+                                <Link
                                   className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,robe-fines-brides-im"
-                                  href="/product/robe-fines-brides-imprim-tropical-en-dentelle"
+                                  to="/product/robe-fines-brides-imprim-tropical-en-dentelle"
                                 >
                                   Robe à fines brides à imprimé tropical en
                                   dentelle
-                                </a>
+                                </Link>
                               </li>
                             </ul>
                           </li>

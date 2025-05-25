@@ -9,6 +9,8 @@ import Footer from "./components/Footer/Footer";
 import { resquestResponse } from "./models/resquestResponse";
 import { getDatas } from "./api/entity";
 import { Meta } from "./models/meta";
+import Signin from "./pages/Signin/Signin";
+import Signup from "./pages/Signup/Signup";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -34,6 +36,8 @@ function App() {
       <Header metas={metas} />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
       </Routes>
       <Footer metas={metas} />

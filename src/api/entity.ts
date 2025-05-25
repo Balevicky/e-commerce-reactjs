@@ -1,5 +1,6 @@
 import { apiUrl, webApiUrl } from "../environements/environement";
-import { get } from "./fecthHelppers";
+import { User } from "../models/user";
+import { get, post } from "./fecthHelppers";
 
 export const getDatas = async (entityName: string) => {
   const url = webApiUrl + entityName;
@@ -23,5 +24,12 @@ export const getDatasByPage = async (
     "&pageLimit=" +
     limit;
   const datas = await get(url);
+  return datas;
+};
+
+// ===============
+export const signup = async (user: User) => {
+  const url = webApiUrl + "user/signup";
+  const datas = await post(url, user);
   return datas;
 };

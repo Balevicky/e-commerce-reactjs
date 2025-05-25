@@ -47,11 +47,7 @@ const Footer: FC<FooterProps> = ({ metas }) => {
                         >
                           <i className="ion-social-facebook" />
                         </a>
-                      ) : (
-                        <a target="_blank" href="https://facebook.com">
-                          <i className="ion-social-facebook" />
-                        </a>
-                      )}
+                      ) : null}
                     </li>
                     <li />
                     <li />
