@@ -8,7 +8,14 @@ import React, { FC, useEffect, Fragment, useState } from "react";
 // import Loading from '../Loading/Loading';
 import "./Signin.css";
 import PageBanner from "../../components/PageBanner/PageBanner";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useFormik } from "formik";
+import { validateLoginForm } from "../../helpers/utils";
+import { signin } from "../../api/entity";
+import { useDispatch } from "react-redux";
+import { CONNECTED } from "../../redux/actions/actionType";
+import Account from "../../components/Account/Account";
+// import Account from "../../components/Account/Account";
 
 interface SigninProps {}
 
@@ -17,6 +24,38 @@ const Signin: FC<SigninProps> = () => {
   // const [loading, setLoading] = useState(true);
   // const [value, setValue] = useState('');
 
+  const [redirect, setRedirect] = useState<boolean>(false);
+  const [formError, setFormError] = useState<string>("");
+  const validate = (values: any) => validateLoginForm(values);
+
+  const dispatch = useDispatch();
+  const formik = useFormik({
+    initialValues: {
+      email: "balevictorien@yahoo.fr",
+      password: "Golbi0860",
+    },
+    validate,
+    onSubmit: async (user) => {
+      const result = await signin(user);
+      // alert(JSON.stringify(result, null, 2));
+      if (result.isSuccess) {
+        setRedirect(true);
+        setFormError("");
+        const day: any = dispatch({
+          type: CONNECTED,
+          payload: {
+            token: result.token,
+            userId: result.userId,
+          },
+        });
+        console.log(day);
+      } else {
+        setRedirect(false);
+        setFormError(result.message);
+      }
+    },
+  });
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const runLocalData = async () => {
@@ -24,6 +63,12 @@ const Signin: FC<SigninProps> = () => {
     };
     runLocalData();
   }, []);
+
+  if (redirect) {
+    // redirect
+
+    return <Navigate to="/account" />;
+  }
 
   return (
     <Fragment>
@@ -45,16 +90,26 @@ const Signin: FC<SigninProps> = () => {
                         <h3>Login</h3>
                       </div>
                       <form
+                        onSubmit={formik.handleSubmit}
                         ng-reflect-form="[object Object]"
                         className="ng-untouched ng-pristine ng-invalid"
                       >
+                        <p className="error text-danger">{formError}</p>
+
                         <div className="form-group mb-3">
                           <input
                             type="text"
                             name="email"
                             placeholder="Your Email"
                             className="form-control ng-untouched ng-pristine ng-invalid"
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
                           />
+                          {formik.touched.email && formik.errors.email ? (
+                            <div className="error text-danger">
+                              {formik.errors.email}
+                            </div>
+                          ) : null}
                         </div>
                         <div className="form-group mb-3">
                           <input
@@ -62,9 +117,16 @@ const Signin: FC<SigninProps> = () => {
                             name="password"
                             placeholder="Password"
                             className="form-control ng-untouched ng-pristine ng-invalid"
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
                           />
+                          {formik.touched.password && formik.errors.password ? (
+                            <div className="error text-danger">
+                              {formik.errors.password}
+                            </div>
+                          ) : null}
                         </div>
-                        <div className="login_footer form-group mb-3">
+                        {/* <div className="login_footer form-group mb-3">
                           <div className="chek-form">
                             <div className="custome-checkbox">
                               <input
@@ -83,8 +145,8 @@ const Signin: FC<SigninProps> = () => {
                               </label>
                             </div>
                           </div>
-                          <a href="#">Forgot password?</a>
-                        </div>
+                          <Link to="#">Forgot password?</Link>
+                        </div> */}
                         <div className="form-group mb-3">
                           <button
                             type="submit"
@@ -100,16 +162,16 @@ const Signin: FC<SigninProps> = () => {
                       </div>
                       <ul className="btn-login list_none text-center">
                         <li>
-                          <a href="#" className="btn btn-facebook">
+                          <Link to="#" className="btn btn-facebook">
                             <i className="ion-social-facebook" />
                             Facebook
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#" className="btn btn-google">
+                          <Link to="#" className="btn btn-google">
                             <i className="ion-social-googleplus" />
                             Google
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                       <div className="form-note text-center">

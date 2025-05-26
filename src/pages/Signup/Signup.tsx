@@ -4,35 +4,45 @@
   App Name : E-commerce with React.Js
   Created At : 25/05/2025 10:29:54
 */
-import React, { FC, useEffect, Fragment } from "react";
+import React, { FC, useEffect, Fragment, useState } from "react";
 // import Loading from '../Loading/Loading';
 import "./Signup.css";
 import PageBanner from "../../components/PageBanner/PageBanner";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { validateRegisterForm } from "../../helpers/utils";
 import { signup } from "../../api/entity";
 
+// import Signin from "../Signin/Signin";
+
 interface SignupProps {}
 
 const Signup: FC<SignupProps> = () => {
-  // const [state, setState] = useState<any>(null)
   // const [loading, setLoading] = useState(true);
-  // const [value, setValue] = useState('');
+  const [redirect, setRedirect] = useState<boolean>(false);
+  const [formError, setFormError] = useState<string>("");
   const validate = (values: any) => validateRegisterForm(values);
+
   const formik = useFormik({
     initialValues: {
-      fullName: "Goli",
-      email: "calevictorien@yahoo.fr",
-      password: "Golbi0860",
-      confirmPassword: "Golbi0860",
-      acceptedTerms: true,
-      roles: [],
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      acceptedTerms: false,
+      // roles: [],
     },
     validate,
     onSubmit: async (user) => {
       const result = await signup(user);
-      alert(JSON.stringify(result, null, 2));
+      // alert(JSON.stringify(result, null, 2));
+      if (result.isSuccess) {
+        setRedirect(true);
+        setFormError("");
+      } else {
+        setRedirect(false);
+        setFormError(result.message);
+      }
     },
   });
 
@@ -43,6 +53,12 @@ const Signup: FC<SignupProps> = () => {
     };
     runLocalData();
   }, []);
+
+  if (redirect) {
+    // redirect
+
+    return <Navigate to="/signin" />;
+  }
 
   return (
     <Fragment>
@@ -64,6 +80,7 @@ const Signup: FC<SignupProps> = () => {
                         onSubmit={formik.handleSubmit}
                         className="ng-untouched ng-pristine ng-invalid"
                       >
+                        <p className="error text-danger">{formError}</p>
                         <div className="form-group mb-3">
                           <input
                             type="text"
@@ -168,16 +185,16 @@ const Signup: FC<SignupProps> = () => {
                       </div>
                       <ul className="btn-login list_none text-center">
                         <li>
-                          <a href="#" className="btn btn-facebook">
+                          <Link to="#" className="btn btn-facebook">
                             <i className="ion-social-facebook" />
                             Facebook
-                          </a>
+                          </Link>
                         </li>
                         <li>
-                          <a href="#" className="btn btn-google">
+                          <Link to="#" className="btn btn-google">
                             <i className="ion-social-googleplus" />
                             Google
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                       <div className="form-note text-center">

@@ -1,7 +1,7 @@
 export interface User {
-  fullName: string;
+  fullName?: string;
   email: string;
   password?: string;
-  roles: Array<string>;
-  acceptedTerms: boolean;
+  roles?: Array<string>;
+  // acceptedTerms: boolean;
 }

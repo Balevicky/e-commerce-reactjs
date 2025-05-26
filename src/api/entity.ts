@@ -1,5 +1,7 @@
 import { apiUrl, webApiUrl } from "../environements/environement";
 import { User } from "../models/user";
+import { setItem } from "../services/localstrorage.service";
+
 import { get, post } from "./fecthHelppers";
 
 export const getDatas = async (entityName: string) => {
@@ -33,3 +35,15 @@ export const signup = async (user: User) => {
   const datas = await post(url, user);
   return datas;
 };
+// ===============
+export const signin = async (user: User) => {
+  const url = webApiUrl + "user/signin";
+  const datas = await post(url, user);
+  if (datas.isSuccess) {
+    // auth success
+    setItem("auth", { token: datas.token, userId: datas.userId });
+    // console.log(datas);
+  }
+  return datas;
+};
+
