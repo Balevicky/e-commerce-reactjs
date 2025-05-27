@@ -12,6 +12,7 @@ import { Meta } from "./models/meta";
 import Signin from "./pages/Signin/Signin";
 import Signup from "./pages/Signup/Signup";
 import Account from "./components/Account/Account";
+import PrivateRoute from "./guard/PrivateRoute/PrivateRoute";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -40,7 +41,14 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
-        <Route path="/account" element={<Account />} />
+        <Route
+          path="/account"
+          element={
+            <PrivateRoute>
+              <Account />
+            </PrivateRoute>
+          }
+        />
       </Routes>
       <Footer metas={metas} />
     </BrowserRouter>

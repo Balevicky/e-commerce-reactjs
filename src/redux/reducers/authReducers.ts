@@ -21,11 +21,12 @@ export const authReducers = (
     case CONNECTED:
       return {
         isAuth: true,
-        token: action.payload.token,
-        userId: action.payload.userId,
+        token: action.payload?.token,
+        userId: action.payload?.userId,
       };
       break;
     case LOGOUT:
+      localStorage.removeItem("auth")
       return {
         isAuth: false,
         token: "",

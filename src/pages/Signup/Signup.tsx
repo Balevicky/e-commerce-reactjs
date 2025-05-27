@@ -12,6 +12,8 @@ import { Link, Navigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { validateRegisterForm } from "../../helpers/utils";
 import { signup } from "../../api/entity";
+import { useSelector } from "react-redux";
+import { getAuthState } from "../../redux/selectors/authSelectors";
 
 // import Signin from "../Signin/Signin";
 
@@ -22,6 +24,7 @@ const Signup: FC<SignupProps> = () => {
   const [redirect, setRedirect] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
   const validate = (values: any) => validateRegisterForm(values);
+  const isAuth = useSelector(getAuthState);
 
   const formik = useFormik({
     initialValues: {
@@ -56,8 +59,11 @@ const Signup: FC<SignupProps> = () => {
 
   if (redirect) {
     // redirect
-
     return <Navigate to="/signin" />;
+  }
+  if (isAuth) {
+    // redirect
+    return <Navigate to="/account" />;
   }
 
   return (

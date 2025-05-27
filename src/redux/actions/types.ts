@@ -7,5 +7,5 @@ interface userConnectedData {
 }
 export interface AuthAction {
   type: typeof CONNECTED | typeof LOGOUT;
-  payload: userConnectedData;
+  payload: userConnectedData | null;
 }

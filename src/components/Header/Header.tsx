@@ -5,12 +5,14 @@
   Created At : 22/05/2025 18:04:02
 */
 import React, { FC, useEffect, Fragment } from "react";
-// import Loading from '../Loading/Loading';
 import "./Header.css";
 // import Loading from "../Loading/Loading";
 import { Meta } from "../../models/meta";
 import { getMetas } from "../../helpers/utils";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuthState } from "../../redux/selectors/authSelectors";
+import { LOGOUT } from "../../redux/actions/actionType";
 
 interface HeaderProps {
   metas: Meta[];
@@ -18,6 +20,8 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ metas }) => {
   // const [loading, setLoading] = useState(true);
+  const isAuth = useSelector(getAuthState);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,6 +30,14 @@ const Header: FC<HeaderProps> = ({ metas }) => {
     };
     runLocalData();
   }, []);
+
+  const handleLogout = (e: any) => {
+    e.preventDefault();
+    dispatch({
+      type: LOGOUT,
+      payload: null,
+    });
+  };
 
   return (
     <Fragment>
@@ -140,20 +152,39 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                           <span>Wishlist</span>
                         </Link>
                       </li>
-                      <li>
-                        <Link to="/signin">
-                          <i className="ti-user"></i>
-                          <span>Signin</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/signup">
-                          <i className="ti-user"></i>
-                          <span>Signup</span>
-                        </Link>
-                      </li>
-                      <li></li>
-                      <li></li>
+                      {isAuth ? (
+                        <>
+                          <li>
+                            <Link to="/account">
+                              <i className="ti-user"></i>
+                              <span>Account</span>
+                            </Link>
+                          </li>
+                          <li>
+                            <a onClick={handleLogout} href="/signin">
+                              <i className="ti-user"></i>
+                              <span>Logout</span>
+                            </a>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li>
+                            <Link to="/signin">
+                              <i className="ti-user"></i>
+                              <span>Signin</span>
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/signup">
+                              <i className="ti-user"></i>
+                              <span>Signup</span>
+                            </Link>
+                          </li>
+                        </>
+                      )}
+                      <></>
+                      <></>
                     </ul>
                   </div>
                 </div>

@@ -12,9 +12,10 @@ import { Link, Navigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { validateLoginForm } from "../../helpers/utils";
 import { signin } from "../../api/entity";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CONNECTED } from "../../redux/actions/actionType";
 import Account from "../../components/Account/Account";
+import { getAuthState } from "../../redux/selectors/authSelectors";
 // import Account from "../../components/Account/Account";
 
 interface SigninProps {}
@@ -27,6 +28,7 @@ const Signin: FC<SigninProps> = () => {
   const [redirect, setRedirect] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
   const validate = (values: any) => validateLoginForm(values);
+  const isAuth = useSelector(getAuthState);
 
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -66,7 +68,11 @@ const Signin: FC<SigninProps> = () => {
 
   if (redirect) {
     // redirect
+    return <Navigate to="/account" />;
+  }
 
+  if (isAuth) {
+    // redirect
     return <Navigate to="/account" />;
   }
 

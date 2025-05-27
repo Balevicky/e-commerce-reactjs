@@ -30,6 +30,25 @@ export const getDatasByPage = async (
 };
 
 // ===============
+export const searchDatas = async (
+  entityName: string,
+  query: string,
+  page = 1,
+  limit = 8
+) => {
+  const url =
+    webApiUrl +
+    entityName +
+    "/search?" +
+    query +
+    "&pageNumber=" +
+    page +
+    "&pageLimit=" +
+    limit;
+  const datas = await get(url);
+  return datas;
+};
+// ===============
 export const signup = async (user: User) => {
   const url = webApiUrl + "user/signup";
   const datas = await post(url, user);
