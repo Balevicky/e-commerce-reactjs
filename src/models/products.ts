@@ -7,16 +7,7 @@ export interface Product {
   imageUrls: Array<string>;
   solde_price: number;
   regular_price: number;
+  relatedProducts: Product[];
   updated_at: Date;
   created_at: Date;
-  //   _id: string;
-  //   name: string;
-  //   slug: string;
-  //   description: string;
-  //   stock: string;
-  //   imageUrl: Array<string>;
-  //   solde_price: number;
-  //   regular_price: number;
-  //   created_at: Date;
-  //   updated_at: Date;
 }

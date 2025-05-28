@@ -13,6 +13,7 @@ import Signin from "./pages/Signin/Signin";
 import Signup from "./pages/Signup/Signup";
 import Account from "./components/Account/Account";
 import PrivateRoute from "./guard/PrivateRoute/PrivateRoute";
+import SingleProduct from "./pages/SingleProduct/SingleProduct";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -40,6 +41,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/product/:slug" element={<SingleProduct />} />
         <Route path="/about" element={<About />} />
         <Route
           path="/account"

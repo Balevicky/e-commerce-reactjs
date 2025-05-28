@@ -1,5 +1,5 @@
 export interface resquestResponse {
   isSuccess: boolean;
-  result?: Array<any>;
+  result?: any;
   results?: Array<any>;
 }

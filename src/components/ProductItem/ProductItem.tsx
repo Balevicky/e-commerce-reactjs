@@ -10,6 +10,7 @@ import "./ProductItem.css";
 import Loading from "../Loading/Loading";
 import { Link } from "react-router-dom";
 import { Product } from "../../models/products";
+import { reductionRate } from "../../helpers/utils";
 
 interface ProductItemProps {
   product: Product;
@@ -35,7 +36,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
       ) : (
         <div className="ProductItem">
           {/* =============================== */}
-          <div className="product" key={product._id}>
+          <div className="product">
             <div className="product_img">
               <Link to={"/product/" + product.slug}>
                 <img alt="product_img1" src={product.imageUrls[0]} />
@@ -73,7 +74,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
                 <span className="price">$ {product?.solde_price}</span>
                 <del>$ {product?.regular_price}</del>
                 <div className="on_sale">
-                  <span>35% Off</span>
+                  <span>{reductionRate(product)}% Off</span>
                 </div>
               </div>
               <div className="rating_wrap">

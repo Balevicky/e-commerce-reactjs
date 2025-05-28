@@ -1,4 +1,5 @@
 import { Meta } from "../models/meta";
+import { Product } from "../models/products";
 
 export const getMetas = (metas: Meta[], name: string) => {
   let value = "";
@@ -8,8 +9,28 @@ export const getMetas = (metas: Meta[], name: string) => {
   }
   return value;
 };
+// ======================
+export const reductionRate = (product: Product) => {
+  let result = 0;
+  // const { solde_price, regular_price} = product
+  result =
+    ((product.regular_price - product.solde_price) * 100) /
+    product.regular_price;
+  return result.toFixed(0);
+};
+// ===============================
 
+export const loadScript = () => {
+  const firstScript = document.getElementById("firstScript");
+  if (!firstScript) {
+    const script = document.createElement("script");
+    script.src = "/assets/js/scripts.js";
+    script.id = "firstScript";
+    document.body.appendChild(script);
+  }
+};
 
+// ===============================
  export const validateRegisterForm = (values: any) => {
    const errors: any = {};
    if (!values.fullName) {

@@ -49,6 +49,14 @@ export const searchDatas = async (
   return datas;
 };
 // ===============
+export const getDatasBySlug = async (entityName: string, slug: string) => {
+  const url = webApiUrl + entityName + "/by/slug/" + slug;
+  const datas = await get(url);
+  return datas;
+};
+
+// ===============
+
 export const signup = async (user: User) => {
   const url = webApiUrl + "user/signup";
   const datas = await post(url, user);
