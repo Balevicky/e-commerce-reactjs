@@ -3,7 +3,8 @@ export const setItem = (key: string, value: any) => {
     window.localStorage.setItem(key, JSON.stringify(value));
   }
 };
-export const getItem = (key: string, value: any) => {
+// export const getItem = (key: string, value: any) => {
+export const getItem = (key: string) => {
   try {
     const item: any = window.localStorage.getItem(key);
     return JSON.parse(item);

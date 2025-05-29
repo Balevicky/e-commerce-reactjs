@@ -13,7 +13,7 @@ import { useFormik } from "formik";
 import { validateRegisterForm } from "../../helpers/utils";
 import { signup } from "../../api/entity";
 import { useSelector } from "react-redux";
-import { getAuthState } from "../../redux/selectors/authSelectors";
+import { getAuthState } from "../../redux/selectors/selectors";
 
 // import Signin from "../Signin/Signin";
 

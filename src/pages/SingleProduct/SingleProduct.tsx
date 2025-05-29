@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { Product } from "../../models/products";
 import { resquestResponse } from "../../models/resquestResponse";
 import { getDatasBySlug } from "../../api/entity";
-import { loadScript, reductionRate } from "../../helpers/utils";
+import { formatPrice, loadScript, reductionRate } from "../../helpers/utils";
 import ProductItem from "../../components/ProductItem/ProductItem";
 
 interface SingleProductProps {}
@@ -33,17 +33,18 @@ const SingleProduct: FC<SingleProductProps> = () => {
         if (productData.isSuccess) {
           const data: Product = productData.result as Product;
           setProduct(data);
-          setLoading(false);
           console.log(loading);
           console.log({ slug });
           console.log(data);
           // loadScript();
-          setTimeout(loadScript, 500);
+          setTimeout(loadScript, 1000);
+          console.log(loadScript);
+          setLoading(false);
         }
       }
     };
     runLocalData();
-  }, [slug]);
+  }, [slug, loading]);
 
   return (
     <div className="SingleProduct">
@@ -100,8 +101,10 @@ const SingleProduct: FC<SingleProductProps> = () => {
                           <a href="#">{product?.name}</a>
                         </h4>
                         <div className="product_price">
-                          <span className="price">${product?.solde_price}</span>
-                          <del>${product?.regular_price}</del>
+                          <span className="price">
+                            {formatPrice(product?.solde_price)}
+                          </span>
+                          <del>{formatPrice(product?.regular_price)}</del>
                           <div className="on_sale">
                             <span>{reductionRate(product)}% Off</span>
                           </div>

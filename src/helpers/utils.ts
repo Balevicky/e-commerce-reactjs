@@ -22,70 +22,83 @@ export const reductionRate = (product: Product) => {
 
 export const loadScript = () => {
   const firstScript = document.getElementById("firstScript");
+  console.log(firstScript?.id);
+
   if (!firstScript) {
     const script = document.createElement("script");
     script.src = "/assets/js/scripts.js";
     script.id = "firstScript";
+    console.log(script?.id);
+    console.log("lu");
     document.body.appendChild(script);
   }
 };
 
 // ===============================
- export const validateRegisterForm = (values: any) => {
-   const errors: any = {};
-   if (!values.fullName) {
-     errors.fullName = "Required";
-   } else if (values.fullName.length > 15) {
-     errors.fullName = "Must be 15 characters or less";
-   }
+export const validateRegisterForm = (values: any) => {
+  const errors: any = {};
+  if (!values.fullName) {
+    errors.fullName = "Required";
+  } else if (values.fullName.length > 15) {
+    errors.fullName = "Must be 15 characters or less";
+  }
 
-   if (!values.email) {
-     errors.email = "Required";
-   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-     errors.email = "Invalid email address";
-   }
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
 
-   if (!values.password) {
-     errors.password = "Required";
-   } else if (values.password.length < 6) {
-     errors.password = "Must be 6 characters or more";
-   } else if (values.password.length > 20) {
-     errors.password = "Must be 20 characters or less";
-   }
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length < 6) {
+    errors.password = "Must be 6 characters or more";
+  } else if (values.password.length > 20) {
+    errors.password = "Must be 20 characters or less";
+  }
 
-   if (!values.confirmPassword) {
-     errors.confirmPassword = "Required";
-   } else if (values.confirmPassword.length < 6) {
-     errors.confirmPassword = "Must be 6 characters or more";
-   } else if (values.confirmPassword !== values.password) {
-     errors.confirmPassword = "The password not match";
-   } else if (values.confirmPassword.length > 20) {
-     errors.confirmPassword = "Must be 20 characters or less";
-   }
+  if (!values.confirmPassword) {
+    errors.confirmPassword = "Required";
+  } else if (values.confirmPassword.length < 6) {
+    errors.confirmPassword = "Must be 6 characters or more";
+  } else if (values.confirmPassword !== values.password) {
+    errors.confirmPassword = "The password not match";
+  } else if (values.confirmPassword.length > 20) {
+    errors.confirmPassword = "Must be 20 characters or less";
+  }
 
-   if (!values.acceptedTerms) {
-     errors.acceptedTerms = "Required";
-   }
-   return errors;
- };
+  if (!values.acceptedTerms) {
+    errors.acceptedTerms = "Required";
+  }
+  return errors;
+};
 
- // ================================
- export const validateLoginForm = (values: any) => {
-   const errors: any = {};
+// ================================
+export const validateLoginForm = (values: any) => {
+  const errors: any = {};
 
-   if (!values.email) {
-     errors.email = "Required";
-   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-     errors.email = "Invalid email address";
-   }
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
 
-   if (!values.password) {
-     errors.password = "Required";
-   } else if (values.password.length < 6) {
-     errors.password = "Must be 6 characters or more";
-   } else if (values.password.length > 20) {
-     errors.password = "Must be 20 characters or less";
-   }
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length < 6) {
+    errors.password = "Must be 6 characters or more";
+  } else if (values.password.length > 20) {
+    errors.password = "Must be 20 characters or less";
+  }
 
-   return errors;
- };
+  return errors;
+};
+
+// ================================
+export const formatPrice = (price: number, currency: string = "EUR") => {
+  let options = {
+    style: "currency",
+    currency: currency,
+  };
+  return new Intl.NumberFormat("fr-FR", options as any).format(price);
+};

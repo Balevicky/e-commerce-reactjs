@@ -10,7 +10,9 @@ import "./ProductItem.css";
 import Loading from "../Loading/Loading";
 import { Link } from "react-router-dom";
 import { Product } from "../../models/products";
-import { reductionRate } from "../../helpers/utils";
+import { reductionRate, formatPrice } from "../../helpers/utils";
+import { useDispatch } from "react-redux";
+import { ADD_TO_CART } from "../../redux/actions/actionType";
 
 interface ProductItemProps {
   product: Product;
@@ -20,7 +22,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
   // const [state, setState] = useState<any>(null)
   const [loading, setLoading] = useState(true);
   // const [value, setValue] = useState("");
-
+  const dispatch = useDispatch();
   useEffect(() => {
     window.scrollTo(0, 0);
     const runLocalData = async () => {
@@ -28,6 +30,18 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
     };
     runLocalData();
   }, []);
+
+  const addToCart = (e: any) => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_TO_CART,
+      payload: {
+        product: product,
+        quantity: 1,
+        sub_total: product.solde_price,
+      },
+    });
+  };
 
   return (
     <Fragment>
@@ -44,7 +58,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
               <div className="product_action_box">
                 <ul className="list_none pr_action_btn">
                   <li className="add-to-cart">
-                    <a href="#">
+                    <a onClick={addToCart} href="#">
                       <i className="icon-basket-loaded"></i> Add To Cart{" "}
                     </a>
                   </li>
@@ -71,8 +85,10 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
                 <Link to={"/product/" + product.slug}>{product.name}</Link>
               </h6>
               <div className="product_price">
-                <span className="price">$ {product?.solde_price}</span>
-                <del>$ {product?.regular_price}</del>
+                <span className="price">
+                  {formatPrice(product?.solde_price)}
+                </span>
+                <del>{formatPrice(product?.regular_price)}</del>
                 <div className="on_sale">
                   <span>{reductionRate(product)}% Off</span>
                 </div>

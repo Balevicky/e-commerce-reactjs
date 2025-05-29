@@ -24,6 +24,6 @@ export interface CartGlobalState {
   sub_total: number;
 }
 export interface CartAction {
-  type: typeof ADD_TO_CART | typeof REMOVE_FROM_CART;
-  payload: CartData;
+  type: typeof ADD_TO_CART | typeof REMOVE_FROM_CART | null;
+  payload: CartData | null;
 }

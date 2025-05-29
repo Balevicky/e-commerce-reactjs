@@ -8,11 +8,13 @@ import React, { FC, useEffect, Fragment } from "react";
 import "./Header.css";
 // import Loading from "../Loading/Loading";
 import { Meta } from "../../models/meta";
-import { getMetas } from "../../helpers/utils";
+import { getMetas, formatPrice } from "../../helpers/utils";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthState } from "../../redux/selectors/authSelectors";
-import { LOGOUT } from "../../redux/actions/actionType";
+import { getAuthState, getCart } from "../../redux/selectors/selectors";
+import { LOGOUT, REMOVE_FROM_CART } from "../../redux/actions/actionType";
+import { Product } from "../../models/products";
+import { Article } from "../../models/article";
 
 interface HeaderProps {
   metas: Meta[];
@@ -21,21 +23,32 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = ({ metas }) => {
   // const [loading, setLoading] = useState(true);
   const isAuth = useSelector(getAuthState);
+  const cart = useSelector(getCart);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     const runLocalData = async () => {
       // setLoading(false);
     };
     runLocalData();
-  }, []);
+  }, [cart]);
 
   const handleLogout = (e: any) => {
     e.preventDefault();
     dispatch({
       type: LOGOUT,
       payload: null,
+    });
+  };
+
+  const handleRemoveCartItem = (e: any, item: Article) => {
+    e.preventDefault();
+    dispatch({
+      type: REMOVE_FROM_CART,
+      payload: {
+        product: item.product,
+        quantity: item.quantity,
+      },
     });
   };
 
@@ -548,229 +561,84 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                     <div className="search_overlay"></div>
                     <div className="search_overlay"></div>
                   </li>
-                  <li className="dropdown cart_dropdown">
-                    <a
-                      href="#"
-                      data-bs-toggle="dropdown"
-                      className="nav-link cart_trigger"
-                    >
-                      <i className="linearicons-cart"></i>
-                      <span className="cart_count">31</span>
-                    </a>
-                    <div className="cart_box dropdown-menu dropdown-menu-right">
-                      <ul className="cart_list">
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_5/36851533762117856286455670026456984987161761684087224828.webp"
-                            />
-                            Culotte en dentelle
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            11 x
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                23,91&nbsp;€
-                              </span>
+                  {cart?.quantity ? (
+                    <li className="dropdown cart_dropdown">
+                      <a
+                        href="#"
+                        data-bs-toggle="dropdown"
+                        className="nav-link cart_trigger"
+                      >
+                        <i className="linearicons-cart"></i>
+                        <span className="cart_count">{cart.quantity}</span>
+                      </a>
+                      <div className="cart_box dropdown-menu dropdown-menu-right">
+                        <ul className="cart_list">
+                          {cart?.items.map((item) => {
+                            const { product } = item;
+                            return (
+                              // <li key={index}>
+                              <li key={product._id}>
+                                <a
+                                  href="#"
+                                  onClick={(e) => handleRemoveCartItem(e, item)}
+                                  className="item_remove"
+                                >
+                                  <i className="ion-close"></i>
+                                </a>
+                                <a href="#">
+                                  <img
+                                    width="50"
+                                    height="50"
+                                    alt="cart_thumb1"
+                                    src={product.imageUrls[0]}
+                                  />
+                                  {/* Culotte en dentelle */}
+                                  {product.name}
+                                </a>
+                                <span className="cart_quantity">
+                                  {item.quantity}x
+                                  <span className="cart_amount">
+                                    <span className="price_symbole">
+                                      {/* 23,91&nbsp;€ */}
+                                      {formatPrice(product.solde_price)}
+                                      <span>=</span>
+                                      {formatPrice(item.sub_total)}{" "}
+                                    </span>
+                                  </span>
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                        <div className="cart_footer">
+                          <p className="cart_total">
+                            <strong>Subtotal:</strong>
+                            <span className="cart_price">
+                              {/* {cart.sub_total.toFixed(2)} */}
+                              {formatPrice(
+                                parseFloat(cart.sub_total.toFixed(2))
+                              )}
+                              {/* <span className="price_symbole"> </span> */}
                             </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_9/116945623386141314594418897879593148825527931684087225230.webp"
-                            />
-                            Culotte unicolore (sans couture)
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            4 x{" "}
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                44,54&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_7/825380258783085919054835307976332473139779511684087224936.webp"
-                            />
-                            Culotte en dentelle
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            3 x
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                17,17&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/970670668041335927385290724653240714148366921684565574162.webp"
-                            />
-                            Bikini unicolore côtelé
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            4 x{" "}
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                28,24&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_4/87087411019387380483560199609827534551691041684087224752.webp"
-                            />
-                            Culotte unicolore femme (sans couture)
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            2 x{" "}
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                56,07&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_2/64690629656996101166169787112869964617448491684087224479.webp"
-                            />
-                            Tanga unicolore
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            3 x{" "}
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                38,84&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_8/10518988473111520886581236853833613928085898971684087225041.webp"
-                            />
-                            Culotte en dentelle
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            1 x
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                58,43&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                        <li>
-                          <a href="#" className="item_remove">
-                            <i className="ion-close"></i>
-                          </a>
-                          <a href="#">
-                            <img
-                              width="50"
-                              height="50"
-                              alt="cart_thumb1"
-                              src="/assets/files/culottes/culotte_3/6138170893214881132536005127536132168491807951684087224669.webp"
-                            />
-                            Culotte à blocs de couleurs en dentelle
-                          </a>
-                          <span className="cart_quantity">
-                            {" "}
-                            3 x{" "}
-                            <span className="cart_amount">
-                              <span className="price_symbole">
-                                54,95&nbsp;€
-                              </span>
-                            </span>
-                          </span>
-                        </li>
-                      </ul>
-                      <div className="cart_footer">
-                        <p className="cart_total">
-                          <strong>Subtotal:</strong>
-                          <span className="cart_price">
-                            <span className="price_symbole"></span>
-                          </span>
-                          1 057,58&nbsp;€{" "}
-                        </p>
-                        <p className="cart_buttons">
-                          <a
-                            className="btn btn-fill-line view-cart"
-                            ng-reflect-router-link="/cart"
-                            href="/cart"
-                          >
-                            View Cart
-                          </a>
-                          <a
-                            className="btn btn-fill-out checkout"
-                            ng-reflect-router-link="/checkout"
-                            href="/checkout"
-                          >
-                            Checkout
-                          </a>
-                        </p>
+                          </p>
+                          <p className="cart_buttons">
+                            <Link
+                              className="btn btn-fill-line view-cart"
+                              to="/cart"
+                            >
+                              View Cart
+                            </Link>
+                            <Link
+                              className="btn btn-fill-out checkout"
+                              to="/checkout"
+                            >
+                              Checkout
+                            </Link>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  ) : null}
                 </ul>
               </nav>
             </div>
