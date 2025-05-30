@@ -16,6 +16,7 @@ import PrivateRoute from "./guard/PrivateRoute/PrivateRoute";
 import SingleProduct from "./pages/SingleProduct/SingleProduct";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
+import NotificationComponent from "./components/NotificationComponent/NotificationComponent";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -57,6 +58,7 @@ function App() {
         />
       </Routes>
       <Footer metas={metas} />
+      <NotificationComponent />
     </BrowserRouter>
   );
 }

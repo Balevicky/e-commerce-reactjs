@@ -9,6 +9,9 @@ import React, { FC, useEffect, Fragment, useState } from "react";
 import "./Account.css";
 import Loading from "../Loading/Loading";
 import PageBanner from "../PageBanner/PageBanner";
+import { Link } from "react-router-dom";
+import { LOGOUT } from "../../redux/actions/actionType";
+import { useDispatch } from "react-redux";
 
 interface AccountProps {}
 
@@ -16,6 +19,7 @@ const Account: FC<AccountProps> = () => {
   // const [state, setState] = useState<any>(null)
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -24,6 +28,14 @@ const Account: FC<AccountProps> = () => {
     };
     runLocalData();
   }, [value]);
+
+  const handleLogout = (e: any) => {
+    e.preventDefault();
+    dispatch({
+      type: LOGOUT,
+      payload: null,
+    });
+  };
 
   return (
     <Fragment>
@@ -102,10 +114,12 @@ const Account: FC<AccountProps> = () => {
                             className="nav-link"
                             id="logout-tab"
                             href="#logout"
+                            // href="/signin"
                             data-bs-toggle="tab"
                             role="tab"
                             aria-controls="logout"
                             aria-selected="true"
+                            // onClick={handleLogout}
                           >
                             <i className="ti-lock" />
                             Logout
@@ -166,6 +180,7 @@ const Account: FC<AccountProps> = () => {
                               className="btn btn-fill-out py-2"
                               name="submit"
                               value="Submit"
+                              onClick={handleLogout}
                             >
                               Logout
                             </button>

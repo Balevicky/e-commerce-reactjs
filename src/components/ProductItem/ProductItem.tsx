@@ -10,9 +10,10 @@ import "./ProductItem.css";
 import Loading from "../Loading/Loading";
 import { Link } from "react-router-dom";
 import { Product } from "../../models/products";
-import { reductionRate, formatPrice } from "../../helpers/utils";
+import { reductionRate, formatPrice, generateId } from "../../helpers/utils";
 import { useDispatch } from "react-redux";
-import { ADD_TO_CART } from "../../redux/actions/actionType";
+import { ADD_NOTIFICATION, ADD_TO_CART } from "../../redux/actions/actionType";
+import { time } from "console";
 
 interface ProductItemProps {
   product: Product;
@@ -39,6 +40,15 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
         product: product,
         quantity: 1,
         sub_total: product.solde_price,
+      },
+    });
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateId(),
+        message: product.name + " added to cart",
+        status: "success",
+        timeout: 4000,
       },
     });
   };

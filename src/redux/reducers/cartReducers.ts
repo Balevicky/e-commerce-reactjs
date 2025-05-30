@@ -1,3 +1,4 @@
+import { sonoreEffet } from "../../helpers/utils";
 import { Article } from "../../models/article";
 import { getItem, setItem } from "../../services/localstrorage.service";
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/actionType";
@@ -19,15 +20,16 @@ export const cartReducers = (
 ) => {
   switch (action.type) {
     case ADD_TO_CART:
+      sonoreEffet("success");
       const { payload } = action;
       if (payload) {
-        const existiongItem = state.items.find(
+        const existingItem = state.items.find(
           (existing) => existing.product._id == payload.product._id
         );
-        if (existiongItem) {
-          existiongItem.quantity += payload.quantity;
-          existiongItem.sub_total =
-            existiongItem.product.solde_price * existiongItem.quantity;
+        if (existingItem) {
+          existingItem.quantity += payload.quantity;
+          existingItem.sub_total =
+            existingItem.product.solde_price * existingItem.quantity;
 
           state.quantity += payload.quantity;
           // console.log(existiongItem.sub_total);
@@ -40,7 +42,7 @@ export const cartReducers = (
             quantity: payload.quantity,
             sub_total: payload.product.solde_price * payload.quantity,
           };
-          console.log(newItem);
+          // console.log(newItem);
           state.items.push(newItem);
           state.quantity += payload.quantity;
           // console.log("qty :" + state.quantity);
@@ -58,6 +60,7 @@ export const cartReducers = (
 
       break;
     case REMOVE_FROM_CART:
+      sonoreEffet("change");
       if (action?.payload) {
         const index = state.items.findIndex(
           (existing) => existing.product._id === action?.payload?.product._id
