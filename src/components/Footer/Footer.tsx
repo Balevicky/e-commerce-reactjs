@@ -4,19 +4,30 @@
   App Name : E-commerce with React.Js
   Created At : 23/05/2025 10:00:53
 */
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import "./Footer.css";
 import { Meta } from "../../models/meta";
 import { getMetas } from "../../helpers/utils";
+import { Link } from "react-router-dom";
+import { Page } from "../../models/page";
+import { resquestResponse } from "../../models/resquestResponse";
+import { searchDatas } from "../../api/entity";
 
 interface FooterProps {
   metas: Meta[];
 }
 
 const Footer: FC<FooterProps> = ({ metas }) => {
+  const [pages, setPages] = useState<Page[]>([]);
   useEffect(() => {
     window.scrollTo(0, 0);
-    const runLocalData = async () => {};
+    const runLocalData = async () => {
+      let query = "isBottom=true";
+      const data: resquestResponse = await searchDatas("page", query);
+      if (data.isSuccess) {
+        setPages(data.results as Page[]);
+      }
+    };
     runLocalData();
   }, []);
 
@@ -70,13 +81,6 @@ const Footer: FC<FooterProps> = ({ metas }) => {
                           <i className="ion-social-instagram-outline" />
                         </a>
                       ) : null}
-
-                      {/* <a
-                        target="_blank"
-                        href="https://www.instagram.com/mudey_formation/"
-                      >
-                        <i className="ion-social-instagram-outline" />
-                      </a> */}
                     </li>
                   </ul>
                 </div>
@@ -85,46 +89,13 @@ const Footer: FC<FooterProps> = ({ metas }) => {
                 <div className="widget">
                   <h6 className="widget_title">Useful Links</h6>
                   <ul className="widget_links">
-                    <li>
-                      <a
-                        ng-reflect-router-link="/page,a-propos-de-nous-shop"
-                        href="/page/a-propos-de-nous-shop"
-                      >
-                        A Propos de nous
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        ng-reflect-router-link="/page,nos-services-jstore"
-                        href="/page/nos-services-jstore"
-                      >
-                        Nos services
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        ng-reflect-router-link="/page,contactez-nous-category"
-                        href="/page/contactez-nous-category"
-                      >
-                        Contactez-Nous
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        ng-reflect-router-link="/page,nos-partenaires-mudey"
-                        href="/page/nos-partenaires-mudey"
-                      >
-                        Nos partenaires
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        ng-reflect-router-link="/page,mentions-lgales-espero"
-                        href="/page/mentions-lgales-espero"
-                      >
-                        Mentions légales
-                      </a>
-                    </li>
+                    {pages.map((page: Page) => {
+                      return (
+                        <li key={page._id}>
+                          <Link to={"/page/" + page.slug}>{page.name}</Link>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
@@ -155,14 +126,10 @@ const Footer: FC<FooterProps> = ({ metas }) => {
                   <h6 className="widget_title">My Account</h6>
                   <ul className="widget_links">
                     <li>
-                      <a ng-reflect-router-link="account" href="/account">
-                        My Account
-                      </a>
+                      <Link to="/account">My Account</Link>
                     </li>
                     <li>
-                      <a ng-reflect-router-link="terms" href="/terms">
-                        Terms
-                      </a>
+                      <Link to="/terms">Terms</Link>
                     </li>
                     <li>
                       <a ng-reflect-router-link="signin" href="/signin">

@@ -17,6 +17,8 @@ import SingleProduct from "./pages/SingleProduct/SingleProduct";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import NotificationComponent from "./components/NotificationComponent/NotificationComponent";
+import PageComponent from "./pages/PageComponent/PageComponent";
+import Error from "./pages/Error/Error";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -47,7 +49,9 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/product/:slug" element={<SingleProduct />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/page/:slug" element={<PageComponent />} />
+        <Route path="/error" element={<Error />} />
+        <Route path="/*" element={<Error />} />
         <Route
           path="/account"
           element={

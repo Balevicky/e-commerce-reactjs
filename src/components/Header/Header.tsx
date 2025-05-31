@@ -4,7 +4,7 @@
   App Name : E-commerce with React.Js
   Created At : 22/05/2025 18:04:02
 */
-import React, { FC, useEffect, Fragment } from "react";
+import React, { FC, useEffect, Fragment, useState } from "react";
 import "./Header.css";
 // import Loading from "../Loading/Loading";
 import { Meta } from "../../models/meta";
@@ -15,6 +15,11 @@ import { getAuthState, getCart } from "../../redux/selectors/selectors";
 import { LOGOUT, REMOVE_FROM_CART } from "../../redux/actions/actionType";
 import { Product } from "../../models/products";
 import { Article } from "../../models/article";
+import { Page } from "../../models/page";
+import { getDatasByPage, searchDatas } from "../../api/entity";
+import { resquestResponse } from "../../models/resquestResponse";
+import { Category } from "../../models/category";
+import { MegaMenu } from "../../models/mega-menu";
 
 interface HeaderProps {
   metas: Meta[];
@@ -22,14 +27,44 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ metas }) => {
   // const [loading, setLoading] = useState(true);
+  const [pages, setPages] = useState<Page[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [megaMenu, setMegaMenu] = useState<MegaMenu[]>([]);
   const isAuth = useSelector(getAuthState);
   const cart = useSelector(getCart);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const runLocalData = async () => {
-      // setLoading(false);
+      let query = "isTop=true";
+      const data: resquestResponse = await searchDatas("page", query);
+      if (data.isSuccess) {
+        setPages(data.results as Page[]);
+      }
+
+      // =======================
+      query = "isMega=true";
+      const categoryData: resquestResponse = await searchDatas(
+        "category",
+        query,
+        1,
+        4
+      );
+      if (categoryData.isSuccess) {
+        setCategories(categoryData.results as Category[]);
+      }
+      // =======================
+      const megaCollectionData: resquestResponse = await getDatasByPage(
+        "megaCollection",
+        1,
+        3
+      );
+      if (megaCollectionData.isSuccess) {
+        setMegaMenu(megaCollectionData.results as MegaMenu[]);
+      }
+      // =======================
     };
+    // setLoading(false);
     runLocalData();
   }, [cart]);
 
@@ -241,54 +276,20 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                       </Link>
                       <div className="dropdown-menu">
                         <ul>
-                          <li>
-                            <Link
-                              className="dropdown-item nav-link nav_item"
-                              to="/about"
-                            >
-                              About Us
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item nav-link nav_item"
-                              to="/contact"
-                            >
-                              Contact Us
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item nav-link nav_item"
-                              to="/fqa"
-                            >
-                              Faq
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item nav-link nav_item"
-                              to="/signin"
-                            >
-                              Login
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item nav-link nav_item"
-                              to="/signup"
-                            >
-                              Register
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              className="dropdown-item nav-link nav_item"
-                              to="/terms"
-                            >
-                              Terms and Conditions
-                            </Link>
-                          </li>
+                          {pages.map((page) => {
+                            return (
+                              <li key={page._id}>
+                                <Link
+                                  className="dropdown-item nav-link nav_item"
+                                  // to="/about"
+                                  to={"/page/" + page.slug}
+                                >
+                                  {/* About Us */}
+                                  {page.name}
+                                </Link>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     </li>
@@ -303,191 +304,61 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                       </Link>
                       <div className="dropdown-menu">
                         <ul className="mega-menu d-lg-flex">
-                          <li className="mega-menu-col col-lg-3">
-                            <ul>
-                              <li className="dropdown-header">Robes</li>
-                              <li>
-                                <Link
-                                  className="dropdown-item nav-link nav_item"
-                                  to="/product/bikini-unicolore-ctel-shop"
-                                >
-                                  Bikini unicolore côtelé
-                                </Link>
-                                <Link
-                                  className="dropdown-item nav-link nav_item"
-                                  to="/product/jupe-crayon-taille-haute-en-dentelle"
-                                >
-                                  Jupe crayon taille haute en dentelle
-                                </Link>
-                                <Link
-                                  className="dropdown-item nav-link nav_item"
-                                  to="/product/jupe-imprim-floral-taille-fronce"
-                                >
-                                  Jupe à imprimé floral à taille froncée
-                                </Link>
-                                <Link
-                                  className="dropdown-item nav-link nav_item"
-                                  to="/product/robe-fines-brides-imprim-tropical-en-dentelle"
-                                >
-                                  Robe à fines brides à imprimé tropical en
-                                  dentelle
-                                </Link>
+                          {categories?.map((category: Category) => {
+                            return (
+                              <li
+                                className="mega-menu-col col-lg-3"
+                                key={category._id}
+                              >
+                                <ul>
+                                  <li className="dropdown-header">
+                                    {category.name}
+                                  </li>
+                                  {category?.products?.map(
+                                    (produt: Product) => {
+                                      return (
+                                        <li key={produt._id}>
+                                          <Link
+                                            className="dropdown-item nav-link nav_item"
+                                            to={"/product/" + produt.slug}
+                                          >
+                                            <img
+                                              src={produt.imageUrls[0]}
+                                              alt={produt.name}
+                                              width={30}
+                                              height={30}
+                                            />
+                                            {produt.name}
+                                          </Link>
+                                        </li>
+                                      );
+                                    }
+                                  )}
+                                </ul>
                               </li>
-                            </ul>
-                          </li>
-                          <li className="mega-menu-col col-lg-3">
-                            <ul>
-                              <li className="dropdown-header">Jupes</li>
-                              <li>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,bikini-unicolore-cte"
-                                  href="/product/bikini-unicolore-ctel-shop"
-                                >
-                                  Bikini unicolore côtelé
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,jupe-noire-brillante"
-                                  href="/product/jupe-noire-brillante"
-                                >
-                                  Jupe noire brillante
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,jupe-fendue-taille-h"
-                                  href="/product/jupe-fendue-taille-haute"
-                                >
-                                  Jupe fendue taille haute
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,jupe-imprim-floral-t"
-                                  href="/product/jupe-imprim-floral-taille-fronce"
-                                >
-                                  Jupe à imprimé floral à taille froncée
-                                </a>
-                              </li>
-                            </ul>
-                          </li>
-                          <li className="mega-menu-col col-lg-3">
-                            <ul>
-                              <li className="dropdown-header">Culotes </li>
-                              <li>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,bikini-unicolore-cte"
-                                  href="/product/bikini-unicolore-ctel-shop"
-                                >
-                                  Bikini unicolore côtelé
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,culotte-en-dentelle-"
-                                  href="/product/culotte-en-dentelle-mudey"
-                                >
-                                  Culotte en dentelle
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,culotte-en-dentelle-"
-                                  href="/product/culotte-en-dentelle-espero"
-                                >
-                                  Culotte en dentelle
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,culotte-en-dentelle"
-                                  href="/product/culotte-en-dentelle"
-                                >
-                                  Culotte en dentelle
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,short-paillettes-bro"
-                                  href="/product/short-paillettes-broderie-dchir"
-                                >
-                                  Short à paillettes à broderie déchiré
-                                </a>
-                              </li>
-                            </ul>
-                          </li>
-                          <li className="mega-menu-col col-lg-3">
-                            <ul>
-                              <li className="dropdown-header">Pantalons</li>
-                              <li>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,pantalon-taille-haut"
-                                  href="/product/pantalon-taille-haute-carreaux-avec-zip"
-                                >
-                                  Pantalon taille haute à carreaux avec zip
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,pantalon-carreaux-av"
-                                  href="/product/pantalon-carreaux-avec-cordon-la-taille"
-                                >
-                                  Pantalon à carreaux avec cordon à la taille
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,pantalon-taille-fron"
-                                  href="/product/pantalon-taille-fronce-poches"
-                                >
-                                  Pantalon à taille froncée à poches
-                                </a>
-                                <a
-                                  className="dropdown-item nav-link nav_item"
-                                  ng-reflect-router-link="/,product,pantalon-unicolore-t"
-                                  href="/product/pantalon-unicolore-taille-haute"
-                                >
-                                  Pantalon unicolore taille haute
-                                </a>
-                              </li>
-                            </ul>
-                          </li>
+                            );
+                          })}
                         </ul>
                         <div className="d-lg-flex menu_banners row g-3 px-3">
-                          <div className="col-sm-4">
-                            <div className="header-banner">
-                              <img
-                                alt="menu_banner1"
-                                src="/assets/files/megaCollection/11736749706614988691774027121876766721152610541684827357419.png"
-                              />
-                              <div className="banne_info">
-                                <h6>10% Off</h6>
-                                <h4>New Arrival</h4>
-                                <a href="http://localhost:4300/">Shop Now</a>
+                          {megaMenu?.map((menu: MegaMenu) => {
+                            return (
+                              <div className="col-sm-4" key={menu._id}>
+                                <div className="header-banner">
+                                  <img alt="menu_banner1" src={menu.imageUrl} />
+                                  <div className="banne_info">
+                                    <h6>
+                                      {/* 10% Off */}
+                                      {menu.description}
+                                    </h6>
+                                    <h4>{menu.title} </h4>
+                                    <Link to={menu.button_link}>
+                                      {menu.button_text}
+                                    </Link>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                          <div className="col-sm-4">
-                            <div className="header-banner">
-                              <img
-                                alt="menu_banner1"
-                                src="/assets/files/megaCollection/8932488097310286313588503554459963159142614451684826970123.png"
-                              />
-                              <div className="banne_info">
-                                <h6>15% Off</h6>
-                                <h4>Men's Fashion</h4>
-                                <a href="http://localhost:4300/">Shop Now</a>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-sm-4">
-                            <div className="header-banner">
-                              <img
-                                alt="menu_banner1"
-                                src="/assets/files/megaCollection/1412527185807988177642011518607795945067036381684827015102.png"
-                              />
-                              <div className="banne_info">
-                                <h6>23% Off</h6>
-                                <h4>Kids Fashion</h4>
-                                <a href="http://localhost:4300/">Shop Now</a>
-                              </div>
-                            </div>
-                          </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </li>
