@@ -19,6 +19,8 @@ import Checkout from "./pages/Checkout/Checkout";
 import NotificationComponent from "./components/NotificationComponent/NotificationComponent";
 import PageComponent from "./pages/PageComponent/PageComponent";
 import Error from "./pages/Error/Error";
+import Compare from "./pages/Compare/Compare";
+import WishList from "./pages/WishList/WishList";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -48,6 +50,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/wishlist" element={<WishList />} />
+        <Route path="/compare" element={<Compare />} />
         <Route path="/product/:slug" element={<SingleProduct />} />
         <Route path="/page/:slug" element={<PageComponent />} />
         <Route path="/error" element={<Error />} />

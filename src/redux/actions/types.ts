@@ -1,6 +1,6 @@
 import { Article } from "../../models/article";
 import { Product } from "../../models/products";
-import { REMOVE_NOTIFICATION_ITEM } from "./actionType";
+import { ADD_TO_STORAGE, REMOVE_FROM_STORAGE, REMOVE_NOTIFICATION_ITEM } from "./actionType";
 import {
   ADD_NOTIFICATION,
   ADD_TO_CART,
@@ -53,3 +53,9 @@ export interface NotificationAction {
     | null;
   payload: NotificationItem | null;
 }
+// ====================== Stockage
+export interface StockageAction {
+  type: typeof ADD_TO_STORAGE | typeof REMOVE_FROM_STORAGE | null;
+  key: string | null;
+  payload: Product | null;
+};

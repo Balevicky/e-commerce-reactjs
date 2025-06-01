@@ -7,23 +7,33 @@
 import React, { FC, useEffect, useState } from "react";
 import "./SingleProduct.css";
 import PageBanner from "../../components/PageBanner/PageBanner";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Product } from "../../models/products";
 import { resquestResponse } from "../../models/resquestResponse";
 import { getDatasBySlug } from "../../api/entity";
-import { formatPrice, loadScript, reductionRate } from "../../helpers/utils";
+import {
+  formatPrice,
+  generateId,
+  loadScript,
+  reductionRate,
+  sonoreEffet,
+} from "../../helpers/utils";
 import ProductItem from "../../components/ProductItem/ProductItem";
+import { ADD_NOTIFICATION, ADD_TO_CART } from "../../redux/actions/actionType";
+import { useDispatch } from "react-redux";
 
 interface SingleProductProps {}
 
 const SingleProduct: FC<SingleProductProps> = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [product, setProduct] = useState<Product | null>(null);
+  const [quantities, setQuantities] = useState<number>(1);
+  const dispatch = useDispatch();
   const params = useParams();
   const { slug } = params;
-
+  let sub_totals: number;
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       if (slug) {
         const productData: resquestResponse = await getDatasBySlug(
@@ -33,18 +43,58 @@ const SingleProduct: FC<SingleProductProps> = () => {
         if (productData.isSuccess) {
           const data: Product = productData.result as Product;
           setProduct(data);
-          console.log(loading);
-          console.log({ slug });
-          console.log(data);
+          // console.log(loading);
+          // console.log({ slug });
+          // console.log(data);
           // loadScript();
-          setTimeout(loadScript, 1000);
-          console.log(loadScript);
+          if (product?.solde_price) {
+            sub_totals = product?.solde_price * quantities;
+          }
+          setTimeout(loadScript, 500);
           setLoading(false);
         }
       }
     };
     runLocalData();
   }, [slug, loading]);
+  const handleAddQuantity = (e: any) => {
+    e.preventDefault();
+    sonoreEffet();
+    if (quantities > 0) {
+      setQuantities(quantities + 1);
+    }
+  };
+  const handleRemoveQuantity = (e: any) => {
+    sonoreEffet("change");
+    e.preventDefault();
+    if (quantities > 1) {
+      setQuantities(quantities - 1);
+      console.log(quantities);
+    }
+  };
+
+  const addToCart = (e: any) => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_TO_CART,
+      payload: {
+        product: product,
+        // quantity: 1,
+        quantity: quantities,
+        sub_total: sub_totals,
+      },
+    });
+
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateId(),
+        message: product?.name + " added to cart",
+        status: "success",
+        timeout: 4000,
+      },
+    });
+  };
 
   return (
     <div className="SingleProduct">
@@ -142,24 +192,40 @@ const SingleProduct: FC<SingleProductProps> = () => {
                       <div className="cart_extra">
                         <div className="cart-product-quantity">
                           <div className="quantity">
-                            <input type="button" value="-" className="minus" />
+                            <input
+                              type="button"
+                              value="-"
+                              className="minus"
+                              onClick={(e) => handleRemoveQuantity(e)}
+                            />
                             <input
                               type="text"
                               name="quantity"
-                              value="1"
+                              onChange={() => setQuantities(1)}
+                              value={quantities}
                               title="Qty"
                               className="qty"
                               size={4}
                             />
-                            <input type="button" value="+" className="plus" />
+                            <input
+                              type="button"
+                              value="+"
+                              className="plus"
+                              onClick={(e) => handleAddQuantity(e)}
+                            />
                           </div>
                         </div>
+                        <br />
                         <div className="cart_btn">
                           <button
                             className="btn btn-fill-out btn-addtocart"
                             type="button"
+                            onClick={addToCart}
                           >
-                            <i className="icon-basket-loaded"></i> Add to cart
+                            <a href="/">
+                              <i className="icon-basket-loaded"></i>
+                              Add to cart
+                            </a>
                           </button>
                           <a className="add_compare" href="#">
                             <i className="icon-shuffle"></i>

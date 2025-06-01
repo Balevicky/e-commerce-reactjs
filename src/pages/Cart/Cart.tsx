@@ -26,7 +26,7 @@ useEffect(() => {
   // window.scrollTo(0, 0)
   const runLocalData = async () => {};
   runLocalData();
-});
+}, []);
 
 const handleRemoveCartItem = (event: any, item: Article, quantity?: number) => {
   event.preventDefault();
@@ -97,6 +97,7 @@ return (
                             <div className="quantity">
                               <input
                                 type="button"
+                                // value="-"
                                 value="-"
                                 onClick={(event) =>
                                   handleRemoveCartItem(event, item, 1)

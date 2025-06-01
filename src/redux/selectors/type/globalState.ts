@@ -10,4 +10,5 @@ export interface GlobalState {
   auth: AuthData;
   cart: CartGlobalState;
   datas: NotificationData;
+  storage: any;
 }

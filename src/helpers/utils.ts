@@ -1,5 +1,7 @@
+import { log } from "node:console";
 import { Meta } from "../models/meta";
 import { Product } from "../models/products";
+import { randomInt } from "node:crypto";
 
 export const getMetas = (metas: Meta[], name: string) => {
   let value = "";
@@ -27,10 +29,13 @@ export const loadScript = () => {
   if (!firstScript) {
     const script = document.createElement("script");
     script.src = "/assets/js/scripts.js";
-    script.id = "firstScript";
+    console.log(script?.id);
+    script.id = "firstScript"; //+ Number(Math.random() * 100).toFixed(0);
     console.log(script?.id);
     console.log("lu");
     document.body.appendChild(script);
+
+    console.log(document.body.appendChild(script));
   }
 };
 

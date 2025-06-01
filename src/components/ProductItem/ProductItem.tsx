@@ -12,9 +12,11 @@ import { Link } from "react-router-dom";
 import { Product } from "../../models/products";
 import { reductionRate, formatPrice, generateId } from "../../helpers/utils";
 import { useDispatch } from "react-redux";
-import { ADD_NOTIFICATION, ADD_TO_CART } from "../../redux/actions/actionType";
-import { time } from "console";
-
+import {
+  ADD_NOTIFICATION,
+  ADD_TO_CART,
+  ADD_TO_STORAGE,
+} from "../../redux/actions/actionType";
 interface ProductItemProps {
   product: Product;
 }
@@ -31,7 +33,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
     };
     runLocalData();
   }, []);
-
+  // ========================
   const addToCart = (e: any) => {
     e.preventDefault();
     dispatch({
@@ -47,6 +49,25 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
       payload: {
         _id: generateId(),
         message: product.name + " added to cart",
+        status: "success",
+        timeout: 4000,
+      },
+    });
+  };
+
+  // ========================
+  const addToWishList = (e: any) => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_TO_STORAGE,
+      key: "wishlists",
+      payload: product,
+    });
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateId(),
+        message: product.name + " added to wish list",
         status: "success",
         timeout: 4000,
       },
@@ -69,7 +90,8 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
                 <ul className="list_none pr_action_btn">
                   <li className="add-to-cart">
                     <a onClick={addToCart} href="#">
-                      <i className="icon-basket-loaded"></i> Add To Cart{" "}
+                      <i className="icon-basket-loaded"></i>
+                      Add To Cart
                     </a>
                   </li>
                   <li>
@@ -83,7 +105,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="#" onClick={addToWishList}>
                       <i className="icon-heart"></i>
                     </a>
                   </li>
