@@ -57,6 +57,13 @@ export const getDatasBySlug = async (entityName: string, slug: string) => {
 
 // ===============
 
+export const addData = async (entityName: string, data:any) => {
+  const url = webApiUrl + entityName;
+  const datas = await post(url, data);
+  return datas;
+};
+// ===============
+
 export const signup = async (user: User) => {
   const url = webApiUrl + "user/signup";
   const datas = await post(url, user);

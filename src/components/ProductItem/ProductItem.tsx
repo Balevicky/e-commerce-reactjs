@@ -17,22 +17,23 @@ import {
   ADD_TO_CART,
   ADD_TO_STORAGE,
 } from "../../redux/actions/actionType";
+import ModalQuickWiew from "../ModalQuickWiew/ModalQuickWiew";
 interface ProductItemProps {
   product: Product;
 }
 
 const ProductItem: FC<ProductItemProps> = ({ product }) => {
-  // const [state, setState] = useState<any>(null)
+  const [isQuickView, setIsQuickView] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   // const [value, setValue] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       setLoading(false);
     };
     runLocalData();
-  }, []);
+  });
   // ========================
   const addToCart = (e: any) => {
     e.preventDefault();
@@ -73,6 +74,24 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
       },
     });
   };
+  // ========================
+  const addToCompare = (e: any) => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_TO_STORAGE,
+      key: "comparelists",
+      payload: product,
+    });
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateId(),
+        message: product.name + " added to compare list",
+        status: "success",
+        timeout: 4000,
+      },
+    });
+  };
 
   return (
     <Fragment>
@@ -82,6 +101,12 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
         <div className="ProductItem">
           {/* =============================== */}
           <div className="product">
+            {isQuickView ? (
+              <ModalQuickWiew
+                product={product}
+                close={() => setIsQuickView(false)}
+              />
+            ) : null}
             <div className="product_img">
               <Link to={"/product/" + product.slug}>
                 <img alt="product_img1" src={product.imageUrls[0]} />
@@ -95,12 +120,16 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
                     </a>
                   </li>
                   <li>
-                    <a href="shop-compare.html" className="popup-ajax">
+                    <a href="#" className="popup-ajax" onClick={addToCompare}>
                       <i className="icon-shuffle"></i>
                     </a>
                   </li>
                   <li>
-                    <a href="shop-quick-view.html" className="popup-ajax">
+                    <a
+                      // href="#"
+                      onClick={() => setIsQuickView(!isQuickView)}
+                      className="popup-ajax"
+                    >
                       <i className="icon-magnifier-add"></i>
                     </a>
                   </li>

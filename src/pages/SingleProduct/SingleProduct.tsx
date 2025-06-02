@@ -19,7 +19,11 @@ import {
   sonoreEffet,
 } from "../../helpers/utils";
 import ProductItem from "../../components/ProductItem/ProductItem";
-import { ADD_NOTIFICATION, ADD_TO_CART } from "../../redux/actions/actionType";
+import {
+  ADD_NOTIFICATION,
+  ADD_TO_CART,
+  ADD_TO_STORAGE,
+} from "../../redux/actions/actionType";
 import { useDispatch } from "react-redux";
 
 interface SingleProductProps {}
@@ -28,10 +32,11 @@ const SingleProduct: FC<SingleProductProps> = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [product, setProduct] = useState<Product | null>(null);
   const [quantities, setQuantities] = useState<number>(1);
+  //  const [currentImage, setCurrentImage] = useState<string>("");
   const dispatch = useDispatch();
   const params = useParams();
   const { slug } = params;
-  let sub_totals: number;
+  // let sub_totals: number;
   useEffect(() => {
     // window.scrollTo(0, 0);
     const runLocalData = async () => {
@@ -43,17 +48,24 @@ const SingleProduct: FC<SingleProductProps> = () => {
         if (productData.isSuccess) {
           const data: Product = productData.result as Product;
           setProduct(data);
+          //  setCurrentImage(data?.imageUrls[0]);
           // console.log(loading);
           // console.log({ slug });
           // console.log(data);
           // loadScript();
-          if (product?.solde_price) {
-            sub_totals = product?.solde_price * quantities;
-          }
+
           setTimeout(loadScript, 500);
           setLoading(false);
         }
       }
+      //  // =====================
+      //  const $ = (window as any).jQuery;
+      //  $(".slick_slider").not(".slick-initialized").slick({
+      //    infinite: true,
+      //    slidesToShow: 3,
+      //    slidesToScroll: 3,
+      //  });
+      //  // =====================
     };
     runLocalData();
   }, [slug, loading]);
@@ -73,15 +85,19 @@ const SingleProduct: FC<SingleProductProps> = () => {
     }
   };
 
-  const addToCart = (e: any) => {
+  const addToCart = (e: any, products: Product) => {
     e.preventDefault();
+    // if (products?.solde_price) {
+    //   sub_totals = products?.solde_price * quantities;
+    // }
     dispatch({
       type: ADD_TO_CART,
       payload: {
-        product: product,
+        product: products,
         // quantity: 1,
         quantity: quantities,
-        sub_total: sub_totals,
+        sub_total: products?.solde_price,
+        // sub_total: sub_totals,
       },
     });
 
@@ -90,6 +106,43 @@ const SingleProduct: FC<SingleProductProps> = () => {
       payload: {
         _id: generateId(),
         message: product?.name + " added to cart",
+        status: "success",
+        timeout: 4000,
+      },
+    });
+  };
+
+  // ========================
+  const addToWishList = (e: any, product: Product) => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_TO_STORAGE,
+      key: "wishlists",
+      payload: product,
+    });
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateId(),
+        message: product.name + " added to wish list",
+        status: "success",
+        timeout: 4000,
+      },
+    });
+  };
+  // ========================
+  const addToCompare = (e: any, product: Product) => {
+    e.preventDefault();
+    dispatch({
+      type: ADD_TO_STORAGE,
+      key: "comparelists",
+      payload: product,
+    });
+    dispatch({
+      type: ADD_NOTIFICATION,
+      payload: {
+        _id: generateId(),
+        message: product.name + " added to compare list",
         status: "success",
         timeout: 4000,
       },
@@ -112,6 +165,8 @@ const SingleProduct: FC<SingleProductProps> = () => {
                         <img
                           id="product_img"
                           src={product?.imageUrls[0]}
+                          //  src={currentImage}
+                          //  data-zoom-image={currentImage}
                           alt="product_img1"
                         />
                         <a href="#" className="product_img_zoom" title="Zoom">
@@ -130,10 +185,11 @@ const SingleProduct: FC<SingleProductProps> = () => {
                               return (
                                 <div className="item" key={index}>
                                   <a
-                                    href="#"
+                                    //  href="#"
                                     className="product_gallery_item active"
                                     data-image={imageUrl}
                                     data-zoom-image={imageUrl}
+                                    //  onClick={() => setCurrentImage(imageUrl)}
                                   >
                                     <img src={imageUrl} alt="product image" />
                                   </a>
@@ -142,6 +198,7 @@ const SingleProduct: FC<SingleProductProps> = () => {
                             })
                           : null}
                       </div>
+                      {/* ================== */}
                     </div>
                   </div>
                   <div className="col-lg-6 col-md-6">
@@ -220,17 +277,25 @@ const SingleProduct: FC<SingleProductProps> = () => {
                           <button
                             className="btn btn-fill-out btn-addtocart"
                             type="button"
-                            onClick={addToCart}
+                            onClick={(e) => addToCart(e, product)}
                           >
                             <a href="/">
                               <i className="icon-basket-loaded"></i>
                               Add to cart
                             </a>
                           </button>
-                          <a className="add_compare" href="#">
+                          <a
+                            className="add_compare"
+                            // href="#"
+                            onClick={(e) => addToCompare(e, product)}
+                          >
                             <i className="icon-shuffle"></i>
                           </a>
-                          <a className="add_wishlist" href="#">
+                          <a
+                            className="add_wishlist"
+                            // href="#"
+                            onClick={(e) => addToWishList(e, product)}
+                          >
                             <i className="icon-heart"></i>
                           </a>
                         </div>

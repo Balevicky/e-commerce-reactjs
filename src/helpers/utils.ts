@@ -98,7 +98,22 @@ export const validateLoginForm = (values: any) => {
 
   return errors;
 };
+// ================================
+export const validateSubscribeForm = (values: any) => {
+  const errors: any = {};
 
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+  if (!values.fullName) {
+    errors.fullName = "Required";
+  } else if (values.fullName.length > 15) {
+    errors.fullName = "Must be 15 characters or less";
+  }
+  return errors;
+};
 // ================================
 export const formatPrice = (price: number, currency: string = "EUR") => {
   let options = {

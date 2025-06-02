@@ -19,7 +19,7 @@ const Home: FC<HomeProps> = () => {
   const [value, setValue] = useState("");
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       // setLoading(false);
     };

@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { Page } from "../../models/page";
 import { resquestResponse } from "../../models/resquestResponse";
 import { searchDatas } from "../../api/entity";
+import SubscribeComponent from "../SubscribeComponent/SubscribeComponent";
 
 interface FooterProps {
   metas: Meta[];
@@ -33,6 +34,7 @@ const Footer: FC<FooterProps> = ({ metas }) => {
 
   return (
     <div className="Footer">
+      <SubscribeComponent />
       <footer className="footer_dark">
         <div className="footer_top">
           {/* <div className="container "> */}

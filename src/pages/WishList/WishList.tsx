@@ -18,16 +18,19 @@ import {
   REMOVE_FROM_STORAGE,
 } from "../../redux/actions/actionType";
 
+
 interface WishListProps {}
 
 const WishList: FC<WishListProps> = () => {
-  const wishlists = useSelector(getWishListe);
   const dispatch = useDispatch();
+  const wishlists = useSelector(getWishListe);
   console.log(wishlists);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const runLocalData = async () => {};
+    // window.scrollTo(0, 0);
+    const runLocalData = async () => {
+      console.log(wishlists);
+    };
     runLocalData();
   }, [wishlists]);
 
@@ -120,8 +123,9 @@ const WishList: FC<WishListProps> = () => {
                               data-title="Stock Status"
                               className="product-stock-status"
                             >
-                              <span className="badge badge-pill badge-success text-dark">
-                                {wish.stock}
+                              <span className="  product-price">
+                                {/* <span className="badge badge-pill badge-success  product-price"> */}
+                                {Intl.NumberFormat().format(wish.stock)}
                                 {/* console.log({wish.stock}); */}
                               </span>
                             </td>

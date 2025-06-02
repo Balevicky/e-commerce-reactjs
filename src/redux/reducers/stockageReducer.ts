@@ -35,7 +35,9 @@ export const stockageReducers = (
             (existing: any) => existing._id === action.payload?._id
           );
           if (index != -1) {
-            state[action.key].splice(index, 1);
+            state[action.key] = state[action.key].filter(
+              (exist: any) => exist._id !== action.payload?._id
+            );
           }
         }
       }
