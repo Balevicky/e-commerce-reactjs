@@ -13,6 +13,8 @@ import { Page } from "../../models/page";
 import { resquestResponse } from "../../models/resquestResponse";
 import { searchDatas } from "../../api/entity";
 import SubscribeComponent from "../SubscribeComponent/SubscribeComponent";
+import { useSelector } from "react-redux";
+import { getAuthUserId, getSubscibed } from "../../redux/selectors/selectors";
 
 interface FooterProps {
   metas: Meta[];
@@ -20,6 +22,10 @@ interface FooterProps {
 
 const Footer: FC<FooterProps> = ({ metas }) => {
   const [pages, setPages] = useState<Page[]>([]);
+  const [isSubscibe, setIsSubscibe] = useState<boolean>(false);
+  const isSubscibed = useSelector(getSubscibed);
+  const userId = useSelector(getAuthUserId);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const runLocalData = async () => {
@@ -30,11 +36,12 @@ const Footer: FC<FooterProps> = ({ metas }) => {
       }
     };
     runLocalData();
-  }, []);
+  }, [isSubscibed]);
 
   return (
     <div className="Footer">
-      <SubscribeComponent />
+      {isSubscibed !== userId ? <SubscribeComponent /> : null}
+
       <footer className="footer_dark">
         <div className="footer_top">
           {/* <div className="container "> */}

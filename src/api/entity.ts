@@ -2,7 +2,7 @@ import { apiUrl, webApiUrl } from "../environements/environement";
 import { User } from "../models/user";
 import { setItem } from "../services/localstrorage.service";
 
-import { get, post } from "./fecthHelppers";
+import { get, post, put, remove } from "./fecthHelppers";
 
 export const getDatas = async (entityName: string) => {
   const url = webApiUrl + entityName;
@@ -60,6 +60,18 @@ export const getDatasBySlug = async (entityName: string, slug: string) => {
 export const addData = async (entityName: string, data:any) => {
   const url = webApiUrl + entityName;
   const datas = await post(url, data);
+  return datas;
+};
+// ===============
+export const updateData = async (entityName: string, id: string, data: any) => {
+  const url = webApiUrl + entityName + "/" + id;
+  const datas = await put(url, data);
+  return datas;
+};
+// ===============
+export const deleteData = async (entityName: string, id: string) => {
+  const url = webApiUrl + entityName + "/" + id;
+  const datas = await remove(url);
   return datas;
 };
 // ===============

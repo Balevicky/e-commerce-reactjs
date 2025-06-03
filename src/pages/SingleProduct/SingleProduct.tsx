@@ -31,7 +31,8 @@ interface SingleProductProps {}
 const SingleProduct: FC<SingleProductProps> = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [product, setProduct] = useState<Product | null>(null);
-  const [quantities, setQuantities] = useState<number>(1);
+  // const [quantities, setQuantities] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1);
   //  const [currentImage, setCurrentImage] = useState<string>("");
   const dispatch = useDispatch();
   const params = useParams();
@@ -69,33 +70,49 @@ const SingleProduct: FC<SingleProductProps> = () => {
     };
     runLocalData();
   }, [slug, loading]);
-  const handleAddQuantity = (e: any) => {
-    e.preventDefault();
-    sonoreEffet();
-    if (quantities > 0) {
-      setQuantities(quantities + 1);
+
+  const handleSetQantity = (step: number) => {
+    sonoreEffet("success");
+    // if ((step = 1)) {
+    //   console.log(step);
+    // } else {
+    //   sonoreEffet("danger");
+    // }
+    if (quantity + step >= 1) {
+      setQuantity(quantity + step);
     }
   };
-  const handleRemoveQuantity = (e: any) => {
-    sonoreEffet("change");
-    e.preventDefault();
-    if (quantities > 1) {
-      setQuantities(quantities - 1);
-      console.log(quantities);
-    }
-  };
+  // const handleAddQuantity = (e: any) => {
+  //   e.preventDefault();
+  //   sonoreEffet();
+  //   if (quantities > 0) {
+  //     setQuantities(quantities + 1);
+  //   }
+  // };
+  // const handleRemoveQuantity = () => {
+  //   sonoreEffet("change");
+  //   // e.preventDefault();
+  //   console.log(loading);
+  //   if (quantities > 1) {
+  //     setQuantities(quantities - 1);
+  //     console.log(quantities);
+  //   }
+  //   console.log(loading);
+  // };
 
   const addToCart = (e: any, products: Product) => {
     e.preventDefault();
     // if (products?.solde_price) {
     //   sub_totals = products?.solde_price * quantities;
     // }
+    console.log(quantity);
+
     dispatch({
       type: ADD_TO_CART,
       payload: {
         product: products,
         // quantity: 1,
-        quantity: quantities,
+        quantity: quantity,
         sub_total: products?.solde_price,
         // sub_total: sub_totals,
       },
@@ -253,13 +270,13 @@ const SingleProduct: FC<SingleProductProps> = () => {
                               type="button"
                               value="-"
                               className="minus"
-                              onClick={(e) => handleRemoveQuantity(e)}
+                              onClick={() => handleSetQantity(-1)}
                             />
                             <input
                               type="text"
                               name="quantity"
-                              onChange={() => setQuantities(1)}
-                              value={quantities}
+                              // onChange={() => setQuantities(1)}
+                              defaultValue={quantity}
                               title="Qty"
                               className="qty"
                               size={4}
@@ -268,7 +285,7 @@ const SingleProduct: FC<SingleProductProps> = () => {
                               type="button"
                               value="+"
                               className="plus"
-                              onClick={(e) => handleAddQuantity(e)}
+                              onClick={() => handleSetQantity(1)}
                             />
                           </div>
                         </div>
@@ -279,7 +296,9 @@ const SingleProduct: FC<SingleProductProps> = () => {
                             type="button"
                             onClick={(e) => addToCart(e, product)}
                           >
-                            <a href="/">
+                            <a
+                            // href="/"
+                            >
                               <i className="icon-basket-loaded"></i>
                               Add to cart
                             </a>

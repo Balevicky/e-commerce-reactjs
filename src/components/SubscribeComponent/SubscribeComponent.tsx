@@ -9,17 +9,22 @@ import "./SubscribeComponent.css";
 import { useFormik } from "formik";
 import { addData, signin } from "../../api/entity";
 import { generateId, validateSubscribeForm } from "../../helpers/utils";
-import { ADD_NOTIFICATION, CONNECTED } from "../../redux/actions/actionType";
-import { useDispatch } from "react-redux";
+import {
+  ADD_NOTIFICATION,
+  ADD_TO_STORAGE,
+} from "../../redux/actions/actionType";
+import { useDispatch, useSelector } from "react-redux";
 import { User } from "../../models/user";
+import { getAuthUserId } from "../../redux/selectors/selectors";
 
 interface SubscribeComponentProps {}
 
 const SubscribeComponent: FC<SubscribeComponentProps> = () => {
-  const [redirect, setRedirect] = useState<boolean>(false);
+  // const [redirect, setRedirect] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
   const validate = (values: any) => validateSubscribeForm(values);
   const dispatch = useDispatch();
+  const userId = useSelector(getAuthUserId);
 
   const formik = useFormik({
     initialValues: {
@@ -40,6 +45,12 @@ const SubscribeComponent: FC<SubscribeComponentProps> = () => {
             status: "success",
             timeout: 4000,
           },
+        });
+        // const isSubscibed: string = "isSubscibed" + userId;
+        dispatch({
+          type: ADD_TO_STORAGE,
+          key: "isSubscibed",
+          payload: userId,
         });
         // setRedirect(true);
         // setFormError("");
@@ -62,7 +73,7 @@ const SubscribeComponent: FC<SubscribeComponentProps> = () => {
     // window.scrollTo(0, 0);
     const runLocalData = async () => {};
     runLocalData();
-  });
+  }, []);
 
   return (
     <div className="SubscribeComponent">

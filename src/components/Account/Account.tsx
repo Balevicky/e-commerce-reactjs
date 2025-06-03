@@ -12,6 +12,7 @@ import PageBanner from "../PageBanner/PageBanner";
 import { Link } from "react-router-dom";
 import { LOGOUT } from "../../redux/actions/actionType";
 import { useDispatch } from "react-redux";
+import ManageAddress from "../ManageAddress/ManageAddress";
 
 interface AccountProps {}
 
@@ -250,6 +251,8 @@ const Account: FC<AccountProps> = () => {
                         role="tabpanel"
                         aria-labelledby="address-tab"
                       >
+                        <ManageAddress />
+
                         <div className="row">
                           <div className="col-lg-6">
                             <div className="card mb-3 mb-lg-0">

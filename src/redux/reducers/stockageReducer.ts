@@ -14,14 +14,18 @@ export const stockageReducers = (
     case ADD_TO_STORAGE:
       sonoreEffet("success");
       if (action.key) {
-        if (!state[action.key]) {
-          state[action.key] = [];
-        }
-        const existing = state[action.key].find(
-          (exist: any) => exist._id === action.payload?._id
-        );
-        if (!existing) {
-          state[action.key].push(action.payload);
+        if (action.payload?._id) {
+          if (!state[action.key]) {
+            state[action.key] = [];
+          }
+          const existing = state[action.key].find(
+            (exist: any) => exist._id === action.payload?._id
+          );
+          if (!existing) {
+            state[action.key].push(action.payload);
+          }
+        } else {
+          state[action.key] = action.payload;
         }
       }
       setItem("storage", state);
@@ -30,15 +34,19 @@ export const stockageReducers = (
 
     case REMOVE_FROM_STORAGE:
       if (action.key) {
-        if (state[action.key]) {
-          const index = state[action.key].findIndex(
-            (existing: any) => existing._id === action.payload?._id
-          );
-          if (index != -1) {
-            state[action.key] = state[action.key].filter(
-              (exist: any) => exist._id !== action.payload?._id
+        if (action.payload?._id) {
+          if (state[action.key]) {
+            const index = state[action.key].findIndex(
+              (existing: any) => existing._id === action.payload?._id
             );
+            if (index != -1) {
+              state[action.key] = state[action.key].filter(
+                (exist: any) => exist._id !== action.payload?._id
+              );
+            }
           }
+        } else {
+          delete state[action.key];
         }
       }
       setItem("storage", state);
