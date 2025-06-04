@@ -50,6 +50,7 @@ const SubscribeComponent: FC<SubscribeComponentProps> = () => {
         dispatch({
           type: ADD_TO_STORAGE,
           key: "isSubscibed",
+          unique: true,
           payload: userId,
         });
         // setRedirect(true);

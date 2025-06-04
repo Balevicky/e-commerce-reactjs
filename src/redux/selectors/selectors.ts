@@ -11,5 +11,5 @@ export const getNotification = (state: GlobalState) =>
 export const getWishListe = (state: GlobalState) => state.storage?.wishlists;
 export const getCompareList = (state: GlobalState) =>
   state.storage?.comparelists;
-export const getSubscibed = (state: GlobalState) =>
-  state.storage?.isSubscibed //+ state.auth.userId;
+export const getSubscibed = (state: GlobalState) => state.storage?.isSubscibed;
+export const getCarrier = (state: GlobalState) => state.storage?.carrier; 

@@ -14,7 +14,8 @@ export const stockageReducers = (
     case ADD_TO_STORAGE:
       sonoreEffet("success");
       if (action.key) {
-        if (action.payload?._id) {
+        // if (action.payload?._id) {
+        if (!action.unique) {
           if (!state[action.key]) {
             state[action.key] = [];
           }
@@ -25,6 +26,7 @@ export const stockageReducers = (
             state[action.key].push(action.payload);
           }
         } else {
+          // unique
           state[action.key] = action.payload;
         }
       }
@@ -34,7 +36,8 @@ export const stockageReducers = (
 
     case REMOVE_FROM_STORAGE:
       if (action.key) {
-        if (action.payload?._id) {
+        if (!action.unique) {
+          // if (action.payload?._id) {
           if (state[action.key]) {
             const index = state[action.key].findIndex(
               (existing: any) => existing._id === action.payload?._id
@@ -46,6 +49,7 @@ export const stockageReducers = (
             }
           }
         } else {
+          // unique
           delete state[action.key];
         }
       }

@@ -450,7 +450,7 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                               // <li key={index}>
                               <li key={product._id}>
                                 <a
-                                  href="#"
+                                  // href="#"
                                   onClick={(e) => handleRemoveCartItem(e, item)}
                                   className="item_remove"
                                 >

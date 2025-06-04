@@ -69,7 +69,7 @@ const AddressForm: FC<AddressFormProps> = ({ address, cancel }) => {
             timeout: 2000,
           },
         });
-        handleCancel(null);
+        handleCancel(null); // pour fermer le formulaire
       } else {
         setFormError(result.message);
       }
@@ -177,12 +177,16 @@ const AddressForm: FC<AddressFormProps> = ({ address, cancel }) => {
               className="form-control"
               onChange={formik.handleChange}
               value={formik.values.state}
+              // aria-multiselectable // par vicky
+              // multiple
             >
-              <option value="" aria-multiselectable>
-                Select country ...
-              </option>
+              <option value="">Select country ...</option>
               {countries.map((country: any) => {
-                return <option value={country.name}>{country.name}</option>;
+                return (
+                  <option value={country.name} key={country.name}>
+                    {country.name}
+                  </option>
+                );
               })}
             </select>
             {formik.touched.state && formik.errors.state ? (

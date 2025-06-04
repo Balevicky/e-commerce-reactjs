@@ -27,7 +27,7 @@ const ManageAddress: FC<ManageAddressProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       let query = "user=" + userId;
       const data: resquestResponse = await searchDatas("address", query);
@@ -74,7 +74,7 @@ const ManageAddress: FC<ManageAddressProps> = () => {
       ) : (
         <>
           <a
-            href="#"
+            // href="#"
             className="btn btn-fill-out"
             onClick={() => setOpenForm(true)}
           >
@@ -101,19 +101,19 @@ const ManageAddress: FC<ManageAddressProps> = () => {
                           <tr key={address._id}>
                             <td>#{index + 1}</td>
                             <td>
-                              {address.name} {address.street} -{" "}
-                              {address.code_postal}- {address.state}{" "}
+                              {address.name} {address.street} -
+                              {address.code_postal}- {address.state}
                             </td>
                             <td>
                               <a
-                                href="#"
+                                // href="#"
                                 className="btn btn-fill-out btn-sm"
                                 onClick={(event) => handleEdit(event, address)}
                               >
                                 Edit
                               </a>
                               <a
-                                href="#"
+                                // href="#"
                                 className="btn btn-fill-out btn-sm"
                                 onClick={(event) =>
                                   handleDelete(event, address)
