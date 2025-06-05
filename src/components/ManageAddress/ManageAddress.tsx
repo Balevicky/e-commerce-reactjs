@@ -16,9 +16,15 @@ import { useSelector } from "react-redux";
 import { getUserId } from "../../redux/selectors/selectors";
 import { Address } from "../../models/address";
 
-interface ManageAddressProps {}
+interface ManageAddressProps {
+  updateAddresses?: (data: Address[]) => void;
+  checkout?: boolean;
+}
 
-const ManageAddress: FC<ManageAddressProps> = () => {
+const ManageAddress: FC<ManageAddressProps> = ({
+  updateAddresses,
+  checkout,
+}) => {
   const [openForm, setOpenForm] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -33,6 +39,9 @@ const ManageAddress: FC<ManageAddressProps> = () => {
       const data: resquestResponse = await searchDatas("address", query);
       if (data.isSuccess) {
         setAddresses(data.results as Address[]);
+        if (updateAddresses) {
+          updateAddresses(data.results as Address[]);
+        }
         setLoading(true);
       }
     };
@@ -78,9 +87,9 @@ const ManageAddress: FC<ManageAddressProps> = () => {
             className="btn btn-fill-out"
             onClick={() => setOpenForm(true)}
           >
-            Add New
+            Add New Adress
           </a>
-          {addresses.length ? (
+          {addresses.length && !checkout ? (
             <div className="card">
               <div className="card-header">
                 <h3>Your Addresses</h3>
@@ -104,17 +113,18 @@ const ManageAddress: FC<ManageAddressProps> = () => {
                               {address.name} {address.street} -
                               {address.code_postal}- {address.state}
                             </td>
-                            <td>
+                            <td className="col-sm-6 col-md-6 col-lg-6">
+                              {/* <td > */}
                               <a
                                 // href="#"
-                                className="btn btn-fill-out btn-sm"
+                                className="btn btn-fill-out btn-sm  "
                                 onClick={(event) => handleEdit(event, address)}
                               >
                                 Edit
                               </a>
                               <a
                                 // href="#"
-                                className="btn btn-fill-out btn-sm"
+                                className="btn btn-fill-out btn-sm   "
                                 onClick={(event) =>
                                   handleDelete(event, address)
                                 }

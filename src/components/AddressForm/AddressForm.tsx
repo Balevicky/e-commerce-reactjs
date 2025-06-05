@@ -80,7 +80,7 @@ const AddressForm: FC<AddressFormProps> = ({ address, cancel }) => {
     // window.scrollTo(0, 0)
     const runLocalData = async () => {};
     runLocalData();
-  });
+  }, []);
 
   return (
     <div className="AddressForm">

@@ -15,6 +15,7 @@ import { signin } from "../../api/entity";
 import { useDispatch, useSelector } from "react-redux";
 import { CONNECTED } from "../../redux/actions/actionType";
 import { getAuthState } from "../../redux/selectors/selectors";
+import { getItem, removeItem } from "../../services/localstrorage.service";
 
 // import Account from "../../components/Account/Account";
 
@@ -22,7 +23,7 @@ interface SigninProps {}
 
 const Signin: FC<SigninProps> = () => {
   // const [state, setState] = useState<any>(null)
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   // const [value, setValue] = useState('');
 
   const [redirect, setRedirect] = useState<boolean>(false);
@@ -59,23 +60,64 @@ const Signin: FC<SigninProps> = () => {
   });
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       // setLoading(false)
     };
     runLocalData();
   }, []);
 
+  // if (redirect) {
+  //   // redirect
+  //   let pathname = getItem("pathname");
+
+  //   if (pathname) {
+  //     removeItem("pathname");
+  //     return <Navigate to={pathname} />;
+  //     // } else {
+  //   }
+  //   return <Navigate to="/account" />;
+  // }
+  // ==============
   if (redirect) {
-    // redirect
+    console.log("redirec:" + redirect);
+
+    let pathnames = getItem("pathname");
+
+    if (pathnames) {
+      // removeItem("pathname");// enlever par Goli
+
+      // setLoading(false);
+      return <Navigate to={pathnames} />;
+    }
+    // return;
     return <Navigate to="/account" />;
   }
+  // ==============
 
+  // if (isAuth) {
+  //   // redirect
+  //   let pathname = getItem("pathname");
+
+  //   if (pathname) {
+  //     removeItem("pathname");
+  //     return <Navigate to={pathname} />;
+  //   } else {
+  //     return <Navigate to="/account" />;
+  //   }
+  // }
+  // ==============
   if (isAuth) {
-    // redirect
+    let pathname = getItem("pathname");
+    if (pathname) {
+      // removeItem("pathname");// enlever par Goli
+
+      return <Navigate to={pathname} />;
+    } else {
+    }
     return <Navigate to="/account" />;
   }
-
+  // ==============
   return (
     <Fragment>
       {/* {

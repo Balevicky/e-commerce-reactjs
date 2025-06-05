@@ -6,6 +6,7 @@
 */
 import React, { FC, useEffect } from "react";
 import "./PageBanner.css";
+import { Link } from "react-router-dom";
 
 interface PageBannerProps {
   name: string;
@@ -32,10 +33,10 @@ const PageBanner: FC<PageBannerProps> = ({ name }) => {
             <div className="col-md-6">
               <ol className="breadcrumb justify-content-md-end">
                 <li className="breadcrumb-item">
-                  <a href="/">Home</a>
+                  <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <a href="#">Pages</a>
+                  <Link to="#">Pages</Link>
                 </li>
                 <li className="breadcrumb-item active">{name}</li>
               </ol>

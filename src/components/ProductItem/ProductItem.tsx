@@ -33,7 +33,7 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
       setLoading(false);
     };
     runLocalData();
-  });
+  }, []);
   // ========================
   const addToCart = (e: any) => {
     e.preventDefault();
@@ -114,13 +114,20 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
               <div className="product_action_box">
                 <ul className="list_none pr_action_btn">
                   <li className="add-to-cart">
-                    <a onClick={addToCart} href="#">
+                    <a
+                      onClick={addToCart}
+                      // href="#"
+                    >
                       <i className="icon-basket-loaded"></i>
                       Add To Cart
                     </a>
                   </li>
                   <li>
-                    <a href="#" className="popup-ajax" onClick={addToCompare}>
+                    <a
+                      // href="#"
+                      className="popup-ajax"
+                      onClick={addToCompare}
+                    >
                       <i className="icon-shuffle"></i>
                     </a>
                   </li>
@@ -134,7 +141,10 @@ const ProductItem: FC<ProductItemProps> = ({ product }) => {
                     </a>
                   </li>
                   <li>
-                    <a href="#" onClick={addToWishList}>
+                    <a
+                      // href="#"
+                      onClick={addToWishList}
+                    >
                       <i className="icon-heart"></i>
                     </a>
                   </li>
