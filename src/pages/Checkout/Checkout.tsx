@@ -15,7 +15,6 @@ import {
 } from "../../redux/selectors/selectors";
 import { formatPrice } from "../../helpers/utils";
 import { Carrier } from "../../models/carrier";
-
 import { resquestResponse } from "../../models/resquestResponse";
 import { getDatas, searchDatas } from "../../api/entity";
 import { ADD_TO_STORAGE } from "../../redux/actions/actionType";
@@ -24,7 +23,7 @@ import ManageAddress from "../../components/ManageAddress/ManageAddress";
 import { Address } from "../../models/address";
 import PaimentModal from "../../components/PaimentModal/PaimentModal";
 import PageBanner from "../../components/PageBanner/PageBanner";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 interface CheckoutProps {}
 

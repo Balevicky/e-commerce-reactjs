@@ -13,3 +13,10 @@ export const getCompareList = (state: GlobalState) =>
   state.storage?.comparelists;
 export const getSubscibed = (state: GlobalState) => state.storage?.isSubscibed;
 export const getCarrier = (state: GlobalState) => state.storage?.carrier; 
+export const getCurrentAddress = (state: GlobalState) =>
+  state.storage?.currentAddress;
+export const getCartSubTotal = (state: GlobalState) => {
+  const cartSubTotal =
+    state.cart.sub_total + (state?.storage?.carrier?.price || 0);
+  return cartSubTotal;
+};

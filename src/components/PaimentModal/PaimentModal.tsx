@@ -7,6 +7,8 @@
 import React, { FC, useEffect } from "react";
 import "./PaimentModal.css";
 import StripeCheckout from "../StripeCheckout/StripeCheckout";
+import StripeCheckoutForm from "../PaymentMethods/StripeCheckoutForm/StripeCheckoutForm";
+import StripeComponent from "../PaymentMethods/Stripe/StripeComponent/StripeComponent";
 
 interface PaimentModalProps {
   close: () => void;
@@ -50,7 +52,8 @@ const PaimentModal: FC<PaimentModalProps> = ({ close }) => {
             </div>
             <div className="modal-body">
               Payment Form
-              <StripeCheckout />
+              {/* <StripeCheckout /> */}
+              <StripeComponent />
             </div>
           </div>
         </div>

@@ -36,9 +36,9 @@ const Header: FC<HeaderProps> = ({ metas }) => {
   const [megaMenu, setMegaMenu] = useState<MegaMenu[]>([]);
   const isAuth = useSelector(getAuthState);
   const cart = useSelector(getCart);
-  const wishListe = useSelector(getWishListe);
-  console.log(wishListe?.length);
-  console.log(cart.quantity);
+  // const wishListe = useSelector(getWishListe);
+  // console.log(wishListe?.length);
+  // console.log(cart.quantity);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -79,7 +79,7 @@ const Header: FC<HeaderProps> = ({ metas }) => {
       // setLoading(false);
       runLocalData();
     }
-  }, [cart, wishListe?.length]);
+  }, [cart]);
 
   const handleLogout = (e: any) => {
     e.preventDefault();
@@ -211,8 +211,11 @@ const Header: FC<HeaderProps> = ({ metas }) => {
                         <li>
                           <Link to="/wishlist">
                             <i className="ti-heart ">
-                              <span className="cart_count text-light">
-                                {wishListe?.length}
+                              <span
+                              // className="cart_count "
+                              // className="cart_count text-light"
+                              >
+                                {/* {wishListe?.length} */}
                               </span>
                             </i>
                             <span>Wishlist</span>

@@ -47,3 +47,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Install formik  pour la validation de formulaire
  npm install formik --save
+ ## Installer stripe
+ npm install --save @stripe/react-stripe-js @stripe/stripe-js
