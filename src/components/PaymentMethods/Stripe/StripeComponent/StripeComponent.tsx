@@ -6,7 +6,6 @@
 */
 import React, { FC, useEffect, useState } from "react";
 import "./StripeComponent.css";
-// import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 // import { createPaymentIntent } from "../../../../api/payment";
 import { useSelector } from "react-redux";
@@ -21,9 +20,11 @@ import {
   getCart,
   getUserId,
 } from "../../../../redux/selectors/selectors";
-import StripeCheckoutForm from "../../StripeCheckoutForm/StripeCheckoutForm";
-import Loading from "../../../Loading/Loading";
+// import StripeCheckoutForm from "../StripeCheckoutForm/StripeCheckoutForm";
+// import Loading from "../../../Loading/Loading";
 import { createPaymentIntent } from "../../../../api/payment";
+import StripeCheckoutForm from "../StripeCheckoutForm/StripeCheckoutForm";
+import Loading from "../../../Loading/Loading";
 
 interface StripeComponentProps {}
 
@@ -32,12 +33,12 @@ const StripeComponent: FC<StripeComponentProps> = () => {
   const [clientSecret, setClientSecret] = useState<string>("");
   const [stripePromise, setStripePromise] = useState<any>();
   const cart = useSelector(getCart);
-  const userId = useSelector(getUserId);
   const carrier = useSelector(getCarrier);
+  const userId = useSelector(getUserId);
   const currentAddress = useSelector(getCurrentAddress);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       const data = {
         cart,
@@ -45,8 +46,9 @@ const StripeComponent: FC<StripeComponentProps> = () => {
         userId,
         ...currentAddress,
       };
-      const paymentIntent = await createPaymentIntent("Stripe", data);
 
+      const paymentIntent = await createPaymentIntent("Stripe", data);
+      console.log(paymentIntent);
       setClientSecret(paymentIntent?.clientSecret);
 
       if (process.env.NODE_ENV === "development") {
@@ -57,6 +59,8 @@ const StripeComponent: FC<StripeComponentProps> = () => {
         setStripePromise(loadStripe(paymentIntent?.PROD_PUBLIC_API_KEY));
       }
     };
+    // console.log(clientSecret);
+
     runLocalData();
   }, [cart]);
 

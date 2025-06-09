@@ -1,6 +1,11 @@
 import { Article } from "../../models/article";
 import { Product } from "../../models/products";
-import { ADD_TO_STORAGE, REMOVE_FROM_STORAGE, REMOVE_NOTIFICATION_ITEM } from "./actionType";
+import {
+  ADD_TO_STORAGE,
+  CLEAR_CART,
+  REMOVE_FROM_STORAGE,
+  REMOVE_NOTIFICATION_ITEM,
+} from "./actionType";
 import {
   ADD_NOTIFICATION,
   ADD_TO_CART,
@@ -32,7 +37,7 @@ export interface CartGlobalState {
   sub_total: number;
 }
 export interface CartAction {
-  type: typeof ADD_TO_CART | typeof REMOVE_FROM_CART | null;
+  type: typeof ADD_TO_CART | typeof REMOVE_FROM_CART | typeof CLEAR_CART | null;
   payload: CartData | null;
 }
 // ============== Notification

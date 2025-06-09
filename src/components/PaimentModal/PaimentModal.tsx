@@ -7,7 +7,7 @@
 import React, { FC, useEffect } from "react";
 import "./PaimentModal.css";
 import StripeCheckout from "../StripeCheckout/StripeCheckout";
-import StripeCheckoutForm from "../PaymentMethods/StripeCheckoutForm/StripeCheckoutForm";
+import StripeCheckoutForm from "../PaymentMethods/Stripe/StripeCheckoutForm/StripeCheckoutForm";
 import StripeComponent from "../PaymentMethods/Stripe/StripeComponent/StripeComponent";
 
 interface PaimentModalProps {
@@ -34,7 +34,7 @@ const PaimentModal: FC<PaimentModalProps> = ({ close }) => {
         aria-labelledby="paimentModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrolleble">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="paimentModalLabel">
@@ -51,7 +51,7 @@ const PaimentModal: FC<PaimentModalProps> = ({ close }) => {
               </button>
             </div>
             <div className="modal-body">
-              Payment Form
+              {/* Payment Form */}
               {/* <StripeCheckout /> */}
               <StripeComponent />
             </div>

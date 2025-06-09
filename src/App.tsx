@@ -59,6 +59,7 @@ function App() {
         />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/compare" element={<Compare />} />
+        <Route path="/stripe-payment-success" element={<C />} />
         <Route path="/product/:slug" element={<SingleProduct />} />
         <Route path="/page/:slug" element={<PageComponent />} />
         <Route path="/error" element={<Error />} />

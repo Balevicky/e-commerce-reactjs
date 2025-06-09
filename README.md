@@ -49,3 +49,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
  npm install formik --save
  ## Installer stripe
  npm install --save @stripe/react-stripe-js @stripe/stripe-js
+ ## site de creer le composant LOAD
+ https://loading.io/css

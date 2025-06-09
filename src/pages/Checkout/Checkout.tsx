@@ -78,7 +78,22 @@ const Checkout: FC<CheckoutProps> = () => {
       }
     }
   };
+  const handlePay = (event: any) => {
+    event.preventDefault();
+    const currentAddress = {
+      billingAddress: addresses.filter((a) => a._id === billingAddress)[0],
+      shippingAddress: addresses.filter((a) => a._id === shippingAddress)[0],
+    };
 
+    dispatch({
+      type: ADD_TO_STORAGE,
+      key: "currentAddress",
+      unique: true,
+      payload: currentAddress,
+    });
+
+    setOpenPayNowModal(true);
+  };
   return (
     <div className="Checkout">
       <PageBanner name="Checkout" />
@@ -124,7 +139,7 @@ const Checkout: FC<CheckoutProps> = () => {
                       <div className="heading_s1">
                         <h4>Shipping Details</h4>
                         <select
-                          name="billing_address"
+                          name="shipping_address"
                           className="form-control"
                           onChange={(e) => setShippingAddress(e.target.value)}
                         >
@@ -240,7 +255,8 @@ const Checkout: FC<CheckoutProps> = () => {
                     <a
                       // href="#"
                       className="btn btn-fill-out btn-block"
-                      onClick={() => setOpenPayNowModal(true)}
+                      // onClick={() => setOpenPayNowModal(true)}
+                      onClick={handlePay}
                     >
                       Pay Now (
                       {formatPrice(cart.sub_total + (carrier?.price || 0))})

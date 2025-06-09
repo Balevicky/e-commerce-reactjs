@@ -13,9 +13,9 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { useSelector } from "react-redux";
-import { formatPrice } from "../../../helpers/utils";
-import { getCartSubTotal } from "../../../redux/selectors/selectors";
-import Loading from "../../Loading/Loading";
+import { formatPrice } from "../../../../helpers/utils";
+import { getCartSubTotal } from "../../../../redux/selectors/selectors";
+import Loading from "../../../Loading/Loading";
 // import { getCartSubTotal } from "../../../../redux/selectors/selectors";
 // import { formatPrice } from "../../../../helpers/utils";
 // import Loading from "../../../../pages/Loading/Loading";
@@ -39,6 +39,7 @@ const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
     const clientSecret = new URLSearchParams(window.location.search).get(
       "payment_intent_client_secret"
     );
+    console.log(clientSecret);
 
     console.log(email);
 
@@ -100,11 +101,11 @@ const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
   const paymentElementOptions: any = {
     layout: "tabs",
     // layout: {
-    //   type: 'accordion',
+    //   type: "accordion",
     //   defaultCollapsed: false,
     //   radios: true,
-    //   spacedAccordionItems: false
-    // }
+    //   spacedAccordionItems: false,
+    // },
   };
 
   return (

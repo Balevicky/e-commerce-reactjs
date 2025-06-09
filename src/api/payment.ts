@@ -8,6 +8,7 @@ export const createPaymentIntent = async (paymentMethod: string, data: any) => {
     paymentMethod +
     "-payment-intent?paymentMethode=" +
     paymentMethod;
+console.log(url);
 
   const datas = await post(url, data);
 
