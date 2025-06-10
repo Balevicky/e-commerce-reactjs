@@ -18,7 +18,7 @@ const OrderCompleted: FC<OrderCompletedProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     const runLocalData = async () => {
       const clientSecret = new URLSearchParams(window.location.search).get(
         "payment_intent_client_secret"

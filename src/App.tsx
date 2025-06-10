@@ -21,6 +21,7 @@ import PageComponent from "./pages/PageComponent/PageComponent";
 import Error from "./pages/Error/Error";
 import Compare from "./pages/Compare/Compare";
 import WishList from "./pages/WishList/WishList";
+import OrderCompleted from "./pages/OrderCompleted/OrderCompleted";
 
 function App() {
   const [metas, setMetas] = useState<Meta[]>([]);
@@ -59,7 +60,8 @@ function App() {
         />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/compare" element={<Compare />} />
-        <Route path="/stripe-payment-success" element={<C />} />
+        <Route path="/stripe-payment-success" element={<OrderCompleted />} />
+        <Route path="/paypal-payment-success" element={<OrderCompleted />} />
         <Route path="/product/:slug" element={<SingleProduct />} />
         <Route path="/page/:slug" element={<PageComponent />} />
         <Route path="/error" element={<Error />} />

@@ -251,16 +251,19 @@ const Checkout: FC<CheckoutProps> = () => {
                     </table>
                   </div>
                   <div className="payment_method"></div>
+
                   {billingAddress && shippingAddress && !openPayNowModal ? (
-                    <a
-                      // href="#"
-                      className="btn btn-fill-out btn-block"
-                      // onClick={() => setOpenPayNowModal(true)}
-                      onClick={handlePay}
-                    >
-                      Pay Now (
-                      {formatPrice(cart.sub_total + (carrier?.price || 0))})
-                    </a>
+                    <div className="payment-button">
+                      <a
+                        // href="#"
+                        className="btn btn-fill-out btn-block"
+                        // onClick={() => setOpenPayNowModal(true)}
+                        onClick={handlePay}
+                      >
+                        Pay Now (
+                        {formatPrice(cart.sub_total + (carrier?.price || 0))})
+                      </a>
+                    </div>
                   ) : (
                     <div>Please, select your billing and shipping address.</div>
                   )}

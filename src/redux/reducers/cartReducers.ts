@@ -1,7 +1,11 @@
 import { sonoreEffet } from "../../helpers/utils";
 import { Article } from "../../models/article";
 import { getItem, setItem } from "../../services/localstrorage.service";
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/actionType";
+import {
+  ADD_TO_CART,
+  CLEAR_CART,
+  REMOVE_FROM_CART,
+} from "../actions/actionType";
 import { CartAction, CartGlobalState } from "../actions/types";
 
 const cart = getItem("cart");
@@ -86,6 +90,15 @@ export const cartReducers = (
       }
       setItem("cart", state);
       return { ...state };
+      break;
+    case CLEAR_CART:
+      const newCart = {
+        items: [],
+        quantity: 0,
+        sub_total: 0,
+      };
+      setItem("cart", newCart);
+      return { ...newCart };
       break;
     default:
       return state;

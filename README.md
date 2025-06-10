@@ -51,3 +51,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
  npm install --save @stripe/react-stripe-js @stripe/stripe-js
  ## site de creer le composant LOAD
  https://loading.io/css
+
+ ## install  @paypal/react-paypal-js pour les bouton de paiement paypal
+ npm i @paypal/react-paypal-js

@@ -116,10 +116,14 @@ const StripeCheckoutForm: FC<StripeCheckoutFormProps> = () => {
       />
       {!stripe || !elements ? <Loading /> : null}
       <PaymentElement id="payment-element" options={paymentElementOptions} />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
+      <button
+        disabled={isLoading || !stripe || !elements}
+        id="submit"
+        className="btn btn-fill-out"
+      >
         <span id="button-text">
           {isLoading ? (
-            <div className="spinner" id="spinner"></div>
+            <div className="spinner btn btn-fill-out" id="spinner"></div>
           ) : (
             `Pay now (${formatPrice(subTotal)})`
           )}
