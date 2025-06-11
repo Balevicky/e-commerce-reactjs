@@ -1,5 +1,17 @@
+import { getToken } from "../helpers/utils";
+import { getItem } from "../services/localstrorage.service";
+
+// =========================
 export const get = async (url: string, options: any = {}) => {
   try {
+    // ================ pour securité
+    options.headers = {
+      ...options.headers,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken(),
+    };
+    // ========================
     const response = await fetch(url, options);
     if (!response.ok) {
       return {
@@ -24,6 +36,7 @@ export const post = async (url: string, data: any, options: any = {}) => {
       ...options.headers,
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken(),
     };
 
     const response = await fetch(url, options);
@@ -52,6 +65,7 @@ export const put = async (url: string, data: any, options: any = {}) => {
       ...options.headers,
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken(),
     };
 
     const response = await fetch(url, options);
@@ -79,6 +93,7 @@ export const remove = async (url: string, options: any = {}) => {
       ...options.headers,
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken(),
     };
 
     const response = await fetch(url, options);

@@ -1,5 +1,8 @@
+import { webApiUrl } from "../environements/environement";
 import { Meta } from "../models/meta";
 import { Product } from "../models/products";
+import { resquestResponse } from "../models/resquestResponse";
+import { getItem } from "../services/localstrorage.service";
 
 export const getMetas = (metas: Meta[], name: string) => {
   let value = "";
@@ -8,6 +11,46 @@ export const getMetas = (metas: Meta[], name: string) => {
     value = datas[0].value;
   }
   return value;
+};
+// =================
+// ====Pour la securisation des requetes avec des tokens
+
+export const getToken = () => {
+  const auth = getItem("auth");
+  if (auth && auth.token) {
+    // console.log(auth.token);
+    return auth.token;
+  }
+  return "";
+};
+// =============== Pour gerer les chemins des images
+const cleanImageUrl = (imageUrl: string) => {
+  // decouper url ancien
+  const newImageUrl = webApiUrl + "/assets" + imageUrl.split("/assets")[1];
+  return newImageUrl;
+};
+export const cleanData = (datas: resquestResponse) => {
+  if (datas.isSuccess) {
+    if (datas?.result) {
+      if (datas?.result?.imageUrl) {
+        datas.result.imageUrl = cleanImageUrl(datas.result.imageUrl);
+      }
+      // ======
+      if (datas?.result?.imageUrls) {
+        datas.result.imageUrls.map((imageUrl: string) => {});
+      }
+    }
+    // ==========
+    if (datas?.results) {
+      datas.results = datas?.results.map((result) => {
+        if (result?.imageUrl) {
+          result.imageUrl = cleanImageUrl(result.imageUrl);
+        }
+        return result;
+      });
+    }
+  }
+  return datas;
 };
 // ======================
 export const reductionRate = (product: Product) => {

@@ -5,6 +5,6 @@ export const apiUrl = () => {
     return "https://api.jstore.fr/";
   }
 };
-console.log(apiUrl);
+// console.log(apiUrl);
 
 export const webApiUrl = apiUrl();
