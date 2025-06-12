@@ -35,9 +35,11 @@ export const cleanData = (datas: resquestResponse) => {
       if (datas?.result?.imageUrl) {
         datas.result.imageUrl = cleanImageUrl(datas.result.imageUrl);
       }
-      // ======
+      // ====== plusieurs images
       if (datas?.result?.imageUrls) {
-        datas.result.imageUrls.map((imageUrl: string) => {});
+        datas.result.imageUrls.map((imageUrl: string) => {
+          return cleanImageUrl(imageUrl);
+        });
       }
     }
     // ==========
@@ -45,6 +47,12 @@ export const cleanData = (datas: resquestResponse) => {
       datas.results = datas?.results.map((result) => {
         if (result?.imageUrl) {
           result.imageUrl = cleanImageUrl(result.imageUrl);
+        }
+        // ====== plusieurs images
+        if (result?.imageUrls) {
+          result.imageUrls.map((imageUrl: string) => {
+            return cleanImageUrl(imageUrl);
+          });
         }
         return result;
       });

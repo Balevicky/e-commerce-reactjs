@@ -1,4 +1,5 @@
 import { apiUrl, webApiUrl } from "../environements/environement";
+import { cleanData } from "../helpers/utils";
 import { User } from "../models/user";
 import { setItem } from "../services/localstrorage.service";
 
@@ -9,7 +10,7 @@ export const getDatas = async (entityName: string) => {
 
   const datas = await get(url);
 
-  return datas;
+  return cleanData(datas);
 };
 // ==============
 export const getDatasByPage = async (
@@ -26,7 +27,7 @@ export const getDatasByPage = async (
     "&pageLimit=" +
     limit;
   const datas = await get(url);
-  return datas;
+  return cleanData(datas);
 };
 
 // ===============
@@ -46,18 +47,18 @@ export const searchDatas = async (
     "&pageLimit=" +
     limit;
   const datas = await get(url);
-  return datas;
+  return cleanData(datas);
 };
 // ===============
 export const getDatasBySlug = async (entityName: string, slug: string) => {
   const url = webApiUrl + entityName + "/by/slug/" + slug;
   const datas = await get(url);
-  return datas;
+  return cleanData(datas);
 };
 
 // ===============
 
-export const addData = async (entityName: string, data:any) => {
+export const addData = async (entityName: string, data: any) => {
   const url = webApiUrl + entityName;
   const datas = await post(url, data);
   return datas;

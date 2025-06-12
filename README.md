@@ -54,3 +54,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
  ## install  @paypal/react-paypal-js pour les bouton de paiement paypal
  npm i @paypal/react-paypal-js
+
+ ## Créer un logo avec Caneva en ligne
+
+## install mudey-htaccess
+npm i -g mudey-htaccess
